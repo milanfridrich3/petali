@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send feedback — Petali</title>
+<meta name="description" content="Report a bug or share an idea for Petali.">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png?v=2">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-a:#e7f3ea;
+    --bg-b:#f6f2e0;
+    --ink:#1d3328;
+    --ink-soft:#5c7267;
+    --leaf:#3f9c6d;
+    --leaf-dark:#2c7a52;
+    --leaf-pale:#dcefe1;
+    --amber:#c98a3f;
+    --amber-pale:#f3e3c6;
+    --wilt:#a85a37;
+    --wilt-pale:#f0dcd0;
+    --card:#fbfaf3;
+    --card-border: rgba(29,51,40,0.09);
+    --shadow: 0 14px 34px rgba(29,51,40,0.08);
+    --radius:16px;
+    --serif:"Fraunces", serif;
+    --sans:"Work Sans", sans-serif;
+    --mono:"JetBrains Mono", monospace;
+    --beta:#3b6fd6;
+    --beta-pale:#e4ecfb;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1100px 520px at 12% -8%, var(--bg-a), transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, var(--bg-b), transparent 55%),
+      #f4f1e4;
+    min-height:100vh;
+  }
+  h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0 0 0.4em;letter-spacing:-0.01em;color:var(--ink);}
+  a{color:inherit;}
+  .wrap{max-width:640px;margin:0 auto;padding:0 24px;}
+
+  header.site{padding:26px 0;}
+  .logo{font-family:var(--sans);font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;}
+  .mark{width:34px;height:34px;border-radius:10px;overflow:hidden;display:block;flex:0 0 auto;box-shadow:0 4px 12px rgba(29,51,40,0.16);}
+  .mark img{width:100%;height:100%;display:block;}
+  .beta-tag{
+    font-family:var(--sans);font-size:0.6rem;font-weight:800;letter-spacing:0.05em;
+    color:#fff;background:var(--beta);border-radius:100px;
+    padding:3px 8px;margin-left:2px;text-transform:uppercase;vertical-align:2px;
+  }
+  .back-link{font-family:var(--mono);font-size:0.78rem;color:var(--ink-soft);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .back-link:hover{color:var(--ink);}
+
+  main{padding:18px 0 90px;}
+  .intro{margin-bottom:34px;}
+  .intro .eyebrow{font-family:var(--mono);font-size:0.74rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--leaf-dark);display:block;margin-bottom:10px;}
+  .intro h1{font-size:clamp(1.7rem,4vw,2.2rem);}
+  .intro p{color:var(--ink-soft);font-size:1rem;max-width:52ch;}
+
+  .card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:22px;
+    padding:32px;box-shadow:var(--shadow);
+  }
+
+  .field{margin-bottom:20px;}
+  .field label{display:block;font-family:var(--sans);font-weight:600;font-size:0.86rem;margin-bottom:8px;color:var(--ink);}
+  .field .hint{font-size:0.78rem;color:var(--ink-soft);font-weight:400;margin-left:6px;}
+  .type-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .type-row input{position:absolute;opacity:0;pointer-events:none;}
+  .type-row .opt{
+    font-family:var(--mono);font-size:0.8rem;font-weight:600;color:var(--ink-soft);
+    background:#fff;border:1px solid var(--card-border);border-radius:100px;
+    padding:9px 16px;cursor:pointer;transition:all .15s ease;user-select:none;
+  }
+  .type-row input:checked + .opt{background:var(--leaf-pale);border-color:var(--leaf);color:var(--leaf-dark);}
+
+  input[type=text], input[type=email], textarea{
+    width:100%;font-family:var(--sans);font-size:0.94rem;color:var(--ink);
+    background:#fff;border:1px solid var(--card-border);border-radius:12px;
+    padding:13px 15px;outline:none;transition:border-color .15s ease;
+  }
+  input[type=text]:focus, input[type=email]:focus, textarea:focus{border-color:var(--leaf);}
+  textarea{min-height:130px;resize:vertical;font-family:var(--sans);line-height:1.5;}
+  ::placeholder{color:#a9b8ae;}
+
+  /* honeypot — hidden from real people, catches simple spam bots */
+  .hp{position:absolute;left:-9999px;top:-9999px;}
+
+  .btn{
+    font-family:var(--sans);font-weight:700;font-size:0.92rem;
+    background:var(--leaf-dark);color:#fff;border:none;border-radius:100px;
+    padding:13px 26px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;width:100%;justify-content:center;
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(44,122,82,0.28);}
+  .btn:disabled{opacity:0.6;cursor:default;transform:none;box-shadow:none;}
+
+  .status{margin-top:16px;font-size:0.86rem;text-align:center;display:none;}
+  .status.error{color:var(--wilt);}
+  .status.ok{color:var(--leaf-dark);}
+
+  #successState{display:none;text-align:center;padding:20px 4px;}
+  #successState .icon{font-size:2.2rem;margin-bottom:10px;}
+  #successState p{color:var(--ink-soft);margin-bottom:22px;}
+
+  footer{margin-top:28px;text-align:center;font-family:var(--mono);font-size:0.76rem;color:var(--ink-soft);}
+  footer a{color:var(--leaf-dark);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="back-link" href="index.html">← Back to petali
+    <a class="logo" href="index.html">
+      <span class="mark"><img src="logo-mark.png" alt="Petali logo"></span>
+      petali<span class="beta-tag">Beta</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="intro">
+      <span class="eyebrow">Public beta feedback</span>
+      <h1>Found a bug? Have an idea?</h1>
+      <p>Petali is in public beta — your reports and suggestions go straight to me and directly shape what gets fixed and built next. Thank you for helping test it.</p>
+    </div>
+
+    <div class="card">
+
+      <form id="feedbackForm">
+        <!-- honeypot field: real users never fill this in -->
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="Petali beta feedback">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+
+        <div class="field">
+          <label>What is this about?</label>
+          <div class="type-row">
+            <label><input type="radio" name="type" id="typeBug" value="Bug" checked><span class="opt">Bug</span></label>
+            <label><input type="radio" name="type" id="typeIdea" value="Idea"><span class="opt">Idea</span></label>
+            <label><input type="radio" name="type" id="typeOther" value="Other"><span class="opt">Other</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">Tell me what happened <span class="hint">— the more detail, the better</span></label>
+          <textarea id="message" name="message" placeholder="e.g. CPU temperature isn't showing up, even though the app is running fine otherwise..." required></textarea>
+        </div>
+
+        <div class="field">
+          <label for="email">Your email <span class="hint">(optional, in case I have a follow-up question)</span></label>
+          <input type="email" id="email" name="email" placeholder="you@example.com">
+        </div>
+
+        <button class="btn" type="submit" id="submitBtn">Send feedback</button>
+        <div class="status" id="statusMsg"></div>
+      </form>
+
+      <div id="successState">
+        <div class="icon"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="var(--leaf-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.5l2.8 2.8L16.5 9"/></svg></div>
+        <h2>Thanks — got it!</h2>
+        <p>Your feedback was sent. It genuinely helps shape where Petali goes next.</p>
+        <a class="btn" href="index.html" style="display:inline-flex;width:auto;">Back to petali.app</a>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script>
+  // ---------------------------------------------------------------------
+  // Wired to FormSubmit.co — a free service that emails form submissions
+  // straight to an inbox, no account or backend needed. The very first
+  // submission triggers a one-time "Confirm your email" message from
+  // FormSubmit to milan.fridrich3@gmail.com — click the link in it once,
+  // and every submission after that arrives normally.
+  // ---------------------------------------------------------------------
+  const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/milan.fridrich3@gmail.com";
+
+  const form = document.getElementById('feedbackForm');
+  const statusMsg = document.getElementById('statusMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const messageField = document.getElementById('message');
+
+  const PLACEHOLDERS = {
+    Bug: "e.g. CPU temperature isn't showing up, even though the app is running fine otherwise...",
+    Idea: "e.g. It'd be great to see more plant moods — not just healthy, tired and wilting...",
+    Other: "Anything else on your mind — a question, a thought, general feedback..."
+  };
+  document.querySelectorAll('input[name="type"]').forEach(input => {
+    input.addEventListener('change', () => {
+      messageField.placeholder = PLACEHOLDERS[input.value] || '';
+    });
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    statusMsg.style.display = 'none';
+
+    try {
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('successState').style.display = 'block';
+      } else {
+        throw new Error('Request failed');
+      }
+    } catch (err) {
+      statusMsg.textContent = 'Something went wrong sending that — please try again, or email milan.fridrich3@gmail.com directly.';
+      statusMsg.className = 'status error';
+      statusMsg.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send feedback';
+    }
+  });
+</script>
+
+</body>
+</html>
