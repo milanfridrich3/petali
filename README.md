@@ -120,6 +120,13 @@ The site is built with plain HTML, CSS and JavaScript, uses the Fraunces, Work S
 
 <br>
 
+## License
+
+Petali is licensed under the GNU General Public License v3.0.
+See the [LICENSE](LICENSE) file for details.
+
+<br>
+
 ## Links
 
 - 🌐 Website — [petali.netlify.app](https://petali.netlify.app/)
