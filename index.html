@@ -254,9 +254,35 @@
     padding:18px 20px;text-align:left;
   }
   .stage.night .stat-card{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+  .stat-card{position:relative;cursor:grab;transition:transform .15s ease, box-shadow .15s ease;}
+  .stat-card:active{cursor:grabbing;}
+  .stat-card .drag-handle{position:absolute;right:10px;top:10px;color:var(--ink-soft);opacity:0;transition:opacity .15s ease;font-size:0.8rem;letter-spacing:1px;}
+  .stat-card:hover .drag-handle{opacity:0.6;}
+  .stat-card.drag-over{outline:2px solid var(--leaf);transform:scale(1.02);}
+  .stat-card.dragging{opacity:0.4;}
   .stat-card .lbl{font-size:0.85rem;color:var(--ink-soft);margin-bottom:8px;}
   .stat-card .big{font-family:var(--mono);font-weight:600;font-size:1.5rem;}
   .stat-card .big .unit{font-size:0.85rem;color:var(--ink-soft);font-weight:400;}
+
+  .expand-row{display:none;margin-top:12px;}
+  .expand-row.open{display:block;}
+  .collapse-row{background:none;border:0;font-family:inherit;width:100%;}
+  .collapse-row .chev{display:inline-block;width:9px;height:9px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg);margin-left:2px;transition:transform .2s ease;vertical-align:2px;}
+  .collapse-row.open .chev{transform:rotate(-135deg);}
+  .adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px;}
+  @media (max-width:760px){.adv-grid{grid-template-columns:repeat(1,1fr);}}
+  .trends-card{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:18px 20px;margin-top:12px;}
+  .stage.night .trends-card{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);}
+  .stage.night .trend-chart line{stroke:rgba(255,255,255,0.14);}
+  .stage.night .trends-legend{color:rgba(238,242,236,0.65);}
+  .stage.night .trends-empty{color:rgba(238,242,236,0.65);}
+  .trends-legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:0.72rem;color:var(--ink-soft);margin-bottom:10px;}
+  .trends-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .trends-legend i{width:9px;height:9px;border-radius:3px;display:inline-block;}
+  .trend-chart{width:100%;height:120px;display:block;}
+  .trend-chart line{stroke:var(--card-border);stroke-width:1;}
+  .trend-chart polyline{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .trends-empty{color:var(--ink-soft);font-size:0.85rem;text-align:center;padding:22px 0;}
   .bar-track{height:6px;border-radius:4px;background:rgba(29,51,40,0.08);margin-top:12px;overflow:hidden;}
   .stage.night .bar-track{background:rgba(255,255,255,0.12);}
   .bar-fill{height:100%;border-radius:4px;background:var(--leaf-dark);transition:width .5s ease, background .5s ease;}
@@ -458,33 +484,63 @@
           </div>
           <div class="leaf-note ink-flip"><span id="leafNote">Your plant is doing great.</span></div>
 
-          <div class="stat-grid">
-            <div class="stat-card">
+          <div class="stat-grid" id="statGrid">
+            <div class="stat-card" draggable="true" data-widget="time">
+              <span class="drag-handle">⠿</span>
               <div class="lbl">Active time</div>
               <div class="big"><span id="statActiveTime">44 min</span></div>
               <div class="bar-track"><div class="bar-fill" id="statTimeBar" style="width:46%"></div></div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" draggable="true" data-widget="cpu">
+              <span class="drag-handle">⠿</span>
               <div class="lbl">CPU</div>
               <div class="big"><span id="statCpu">18</span><span class="unit">%</span></div>
               <svg class="spark" viewBox="0 0 100 26" preserveAspectRatio="none">
                 <polyline id="sparkLine" points="0,10 20,12 40,9 60,14 80,16 100,18" fill="none" stroke="var(--leaf-dark)" stroke-width="2"/>
               </svg>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" draggable="true" data-widget="temp">
+              <span class="drag-handle">⠿</span>
               <div class="lbl">Temperature</div>
               <div class="big"><span id="statTemp">34</span><span class="unit">°C</span></div>
               <div class="bar-track"><div class="bar-fill" id="statTempBar" style="width:20%"></div></div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" draggable="true" data-widget="ram">
+              <span class="drag-handle">⠿</span>
               <div class="lbl">RAM</div>
               <div class="big"><span id="statRam">9.7</span> <span class="unit">/ 15.7 GB</span></div>
               <div class="bar-track"><div class="bar-fill" id="statRamBar" style="width:62%"></div></div>
             </div>
           </div>
 
-          <div class="collapse-row soft-flip">Advanced metrics ⌄</div>
-          <div class="collapse-row soft-flip" style="padding-top:4px;">Long-term trends ⌄</div>
+          <button type="button" class="collapse-row soft-flip" id="advToggle" aria-expanded="false" aria-controls="advPanel">Advanced metrics <span class="chev"></span></button>
+          <div class="expand-row" id="advPanel">
+            <div class="adv-grid" id="advGrid">
+              <div class="stat-card" draggable="true" data-widget="gpu">
+                <span class="drag-handle">⠿</span>
+                <div class="lbl">GPU temperature</div>
+                <div class="big"><span id="statGpu">31</span><span class="unit">°C</span></div>
+                <div class="bar-track"><div class="bar-fill" id="statGpuBar" style="width:18%"></div></div>
+              </div>
+              <div class="stat-card" draggable="true" data-widget="fan">
+                <span class="drag-handle">⠿</span>
+                <div class="lbl">Cooling</div>
+                <div class="big"><span id="statFan">1180</span><span class="unit"> RPM</span></div>
+                <div class="bar-track"><div class="bar-fill" id="statFanBar" style="width:24%"></div></div>
+              </div>
+              <div class="stat-card" draggable="true" data-widget="ssd">
+                <span class="drag-handle">⠿</span>
+                <div class="lbl">SSD storage</div>
+                <div class="big"><span id="statSsd">214</span> <span class="unit">/ 476 GB</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:45%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="collapse-row soft-flip" id="trendsToggle" aria-expanded="false" aria-controls="trendsPanel" style="padding-top:4px;">Long-term trends <span class="chev"></span></button>
+          <div class="expand-row" id="trendsPanel">
+            <div class="trends-card" id="trendsCard"></div>
+          </div>
         </div>
       </div>
 
@@ -681,7 +737,7 @@
       <p style="max-width:52ch;margin:0 auto 1.2em;">Setup takes less than a minute. Petali runs quietly in the background and speaks up only when it matters.</p>
       <p style="color:#8fdcae;font-weight:700;margin-bottom:1.8em;">And that's just the start — there's a lot more waiting inside!</p>
       <a class="btn only-desktop" href="https://github.com/milanfridrich3/petali/releases/latest/download/Petali_Setup.exe"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg> Download Petali_Setup.exe</a>
-      <div class="req only-desktop">Windows 10/11 · ~75 MB installer · no account required</div>
+      <div class="req only-desktop">Windows 10/11 · ~100 MB installer · no account required</div>
 
       <div class="only-mobile">
         <div class="pill-btn" style="display:inline-flex;margin:0 auto;background:rgba(255,255,255,0.08);color:#f3f1e6;border-color:rgba(255,255,255,0.16);">Open this page on your computer to download</div>
@@ -715,6 +771,10 @@
   const dayNightToggle = document.getElementById('dayNightToggle');
   const plantShape = document.getElementById('plantShape');
   const speciesRow = document.getElementById('speciesRow');
+  const statGpu = document.getElementById('statGpu');
+  const statGpuBar = document.getElementById('statGpuBar');
+  const statFan = document.getElementById('statFan');
+  const statFanBar = document.getElementById('statFanBar');
 
   const captions = {
     healthy: "YOUR COMPUTER IS BREATHING EASY",
@@ -831,8 +891,100 @@
       return x+','+y.toFixed(1);
     }).join(' ');
     sparkLine.setAttribute('points', pts);
+
+    // advanced metrics — GPU tracks temperature loosely, fan spins up with load
+    const gpu = Math.round(30 + v*0.34);
+    statGpu.textContent = gpu;
+    statGpuBar.style.width = Math.min(100, Math.round((gpu-28)/62*100)) + '%';
+    const fan = Math.round(900 + v*17);
+    statFan.textContent = fan;
+    statFanBar.style.width = Math.min(100, Math.round(fan/3400*100)) + '%';
+
+    recordTrendSample(cpu, temp, ram);
   }
   slider.addEventListener('input', update);
+
+  // --- Advanced metrics / Long-term trends: interactive collapse ---
+  function bindCollapse(toggleId, panelId){
+    const toggle = document.getElementById(toggleId);
+    const panel = document.getElementById(panelId);
+    toggle.addEventListener('click', ()=>{
+      const open = !panel.classList.contains('open');
+      panel.classList.toggle('open', open);
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if(panelId==='trendsPanel' && open) renderTrends();
+    });
+  }
+  bindCollapse('advToggle','advPanel');
+  bindCollapse('trendsToggle','trendsPanel');
+
+  // --- Widget drag-to-reorder, mirroring the desktop app's layout customization ---
+  function bindDrag(container){
+    let dragged = null;
+    container.querySelectorAll('.stat-card').forEach(card=>{
+      card.addEventListener('dragstart', ()=>{ dragged = card; setTimeout(()=>card.classList.add('dragging'),0); });
+      card.addEventListener('dragend', ()=>{ card.classList.remove('dragging'); container.querySelectorAll('.stat-card').forEach(c=>c.classList.remove('drag-over')); });
+      card.addEventListener('dragover', (e)=>{ e.preventDefault(); if(card!==dragged) card.classList.add('drag-over'); });
+      card.addEventListener('dragleave', ()=>card.classList.remove('drag-over'));
+      card.addEventListener('drop', (e)=>{
+        e.preventDefault();
+        card.classList.remove('drag-over');
+        if(!dragged || dragged===card) return;
+        const cards = [...container.children];
+        const a = cards.indexOf(dragged), b = cards.indexOf(card);
+        if(a<b) container.insertBefore(dragged, card.nextSibling);
+        else container.insertBefore(dragged, card);
+        dragged = null;
+      });
+    });
+  }
+  bindDrag(document.getElementById('statGrid'));
+  bindDrag(document.getElementById('advGrid'));
+
+  // --- Long-term trends: a lightweight session history built from the slider,
+  // so the preview genuinely demonstrates the app's trend view instead of a
+  // static placeholder. Not persisted — this is a page-local demo, not real data.
+  const trendHistory = { cpu: [], temp: [], ram: [] };
+  const TREND_MAX = 40;
+  let lastTrendSample = 0;
+  function recordTrendSample(cpu, temp, ram){
+    const now = Date.now();
+    if(now - lastTrendSample < 350) return; // throttle while dragging the slider
+    lastTrendSample = now;
+    trendHistory.cpu.push(cpu); trendHistory.temp.push(temp); trendHistory.ram.push(Math.round(ram/15.7*100));
+    if(trendHistory.cpu.length > TREND_MAX){ trendHistory.cpu.shift(); trendHistory.temp.shift(); trendHistory.ram.shift(); }
+    if(document.getElementById('trendsPanel').classList.contains('open')) renderTrends();
+  }
+  function trendLine(values, color, W, H){
+    if(!values || values.length<2) return '';
+    const n = values.length;
+    const pts = values.map((v,i)=>{
+      const x = n>1 ? i/(n-1)*W : 0;
+      const y = H - Math.min(1,Math.max(0,v/100))*H;
+      return x.toFixed(1)+','+y.toFixed(1);
+    }).join(' ');
+    return '<polyline points="'+pts+'" stroke="'+color+'"/>';
+  }
+  function renderTrends(){
+    const card = document.getElementById('trendsCard');
+    if(trendHistory.cpu.length < 4){
+      card.innerHTML = '<div class="trends-empty">Move the slider above to generate a few data points — in the real app this fills in automatically as Petali runs, and is kept between launches.</div>';
+      return;
+    }
+    const W=640,H=120;
+    const grid=[0,0.5,1].map(f=>'<line x1="0" y1="'+(H*f).toFixed(1)+'" x2="'+W+'" y2="'+(H*f).toFixed(1)+'"/>').join('');
+    card.innerHTML = '<div class="trends-legend">'
+      + '<span><i style="background:var(--leaf-dark)"></i>CPU load (%)</span>'
+      + '<span><i style="background:#c98a3f"></i>CPU temperature (°C, scaled)</span>'
+      + '<span><i style="background:#4b8ce0"></i>RAM usage (%)</span>'
+      + '</div>'
+      + '<svg class="trend-chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><g>'+grid+'</g>'
+      + trendLine(trendHistory.cpu, 'var(--leaf-dark)', W, H)
+      + trendLine(trendHistory.temp.map(t=>Math.min(100,Math.round((t-20)*1.4))), '#c98a3f', W, H)
+      + trendLine(trendHistory.ram, '#4b8ce0', W, H)
+      + '</svg>';
+  }
   update();
 
   let isNight=false;
