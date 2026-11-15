@@ -126,7 +126,8 @@
   .menu-toggle.open span:nth-child(2){opacity:0;}
   .menu-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
-  @media (max-width:760px){
+  /* the menu collapses below 960px (it was 760px): with the Petali ID entry the full row no longer fits comfortably between 760 and 960 */
+  @media (max-width:960px){
     .menu-toggle{display:flex;}
     .nav-links{
       position:fixed;top:65px;left:0;right:0;z-index:49;
@@ -137,7 +138,7 @@
       transition:max-height .35s ease, opacity .25s ease;
       padding:0 24px;
     }
-    .nav-links.open{max-height:420px;opacity:1;pointer-events:auto;padding:10px 24px 22px;}
+    .nav-links.open{max-height:520px;opacity:1;pointer-events:auto;padding:10px 24px 22px;}
     .nav-links a{width:100%;padding:13px 0;border-bottom:1px solid var(--card-border);opacity:1;}
     .nav-links .btn{margin-top:12px;width:100%;justify-content:center;padding:12px 16px;}
   }
@@ -167,6 +168,20 @@
   .btn.ghost{background:transparent;color:var(--ink);border-color:var(--card-border);}
   .btn.ghost:hover{border-color:var(--leaf-dark);box-shadow:none;}
   .nav-links .btn{padding:9px 16px;}
+  .nav-links a.nav-id{
+    display:inline-flex;align-items:center;gap:7px;opacity:1;white-space:nowrap;
+    font-weight:700;color:var(--leaf-dark);background:var(--leaf-pale);
+    border:1.5px solid var(--leaf);border-radius:100px;padding:7px 15px 7px 11px;
+    transition:background .2s ease,color .2s ease,box-shadow .2s ease,transform .15s ease;
+  }
+  .nav-links a{white-space:nowrap;}
+  .nav-links a.nav-id svg{flex:none}
+  .nav-links a.nav-id:hover{background:var(--leaf);color:#fff;border-color:var(--leaf);transform:translateY(-1px);box-shadow:0 8px 18px rgba(44,122,82,0.26);}
+  .nav-links a.nav-id:focus-visible{outline:3px solid rgba(59,111,214,0.6);outline-offset:3px;}
+  .nav-links a.nav-id:active{background:var(--leaf-dark);border-color:var(--leaf-dark);color:#fff;transform:none;box-shadow:none;}
+  @media (max-width:960px){
+    .nav-links a.nav-id{width:100%;justify-content:center;margin-top:12px;padding:12px 16px;}
+  }
 
   .hero{padding:64px 0 24px;text-align:center;}
   .hero .lede{font-size:1.1rem;color:var(--ink-soft);max-width:52ch;margin:0 auto 1.6em;}
@@ -421,6 +436,7 @@
       <a href="#metrics">Metrics</a>
       <a href="#insights">Insights</a>
       <a href="feedback.html">Feedback</a>
+      <a href="/id/" class="nav-id" id="navPetaliId" aria-label="Petali ID: open your account"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.6" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.4 18.2c1.2-2.5 3.2-3.7 5.6-3.7s4.4 1.2 5.6 3.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Petali ID</span></a>
       <a href="#download" class="btn">Download</a>
     </nav>
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
@@ -437,6 +453,7 @@
     <div class="hero-cta">
       <a href="#download" class="btn">Download Petali for free</a>
       <a href="#demo" class="btn ghost">Try the live demo ↓</a>
+      <a href="/id/" class="btn ghost">Open Petali ID</a>
     </div>
 
     <div class="stage-wrap" id="demo">

@@ -15,3 +15,7 @@ desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# Dependencies and generated output
+node_modules/
+id-dev/screenshots/

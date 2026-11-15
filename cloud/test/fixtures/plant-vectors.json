@@ -1,0 +1,210 @@
+{
+ "cases": [
+  {
+   "name": "one computer, nothing yet",
+   "ledgers": [
+    {
+     "baseMs": 0,
+     "days": {}
+    }
+   ],
+   "expected": {
+    "stage": "seed",
+    "stageIndex": 0,
+    "progress": 0,
+    "growthMinutes": 0
+   }
+  },
+  {
+   "name": "existing install: base 10 h is a young plant",
+   "ledgers": [
+    {
+     "baseMs": 36000000,
+     "days": {}
+    }
+   ],
+   "expected": {
+    "stage": "young",
+    "stageIndex": 2,
+    "progress": 0,
+    "growthMinutes": 600
+   }
+  },
+  {
+   "name": "daily cap per computer",
+   "ledgers": [
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-10-01": 32400000,
+      "2026-10-02": 10800000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "sprout",
+    "stageIndex": 1,
+    "progress": 0.625,
+    "growthMinutes": 420
+   }
+  },
+  {
+   "name": "two computers on the same day share the cap",
+   "ledgers": [
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-10-01": 10800000
+     }
+    },
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-10-01": 10800000,
+      "2026-10-02": 3600000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "sprout",
+    "stageIndex": 1,
+    "progress": 0.375,
+    "growthMinutes": 300
+   }
+  },
+  {
+   "name": "different bases: the largest counts once",
+   "ledgers": [
+    {
+     "baseMs": 18000000,
+     "days": {
+      "2026-10-01": 3600000
+     }
+    },
+    {
+     "baseMs": 28800000,
+     "days": {
+      "2026-10-03": 7200000
+     }
+    },
+    {
+     "baseMs": 3600000,
+     "days": {}
+    }
+   ],
+   "expected": {
+    "stage": "young",
+    "stageIndex": 2,
+    "progress": 0.05,
+    "growthMinutes": 660
+   }
+  },
+  {
+   "name": "sprout threshold exactly",
+   "ledgers": [
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-10-01": 7200000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "sprout",
+    "stageIndex": 1,
+    "progress": 0,
+    "growthMinutes": 120
+   }
+  },
+  {
+   "name": "mature",
+   "ledgers": [
+    {
+     "baseMs": 93600000,
+     "days": {
+      "2026-10-01": 14400000,
+      "2026-10-02": 3600000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "mature",
+    "stageIndex": 3,
+    "progress": 1,
+    "growthMinutes": 1860
+   }
+  },
+  {
+   "name": "just below the next stage",
+   "ledgers": [
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-10-01": 14400000,
+      "2026-10-02": 14400000,
+      "2026-10-03": 7164000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "sprout",
+    "stageIndex": 1,
+    "progress": 0.99875,
+    "growthMinutes": 599
+   }
+  },
+  {
+   "name": "invalid entries are ignored or clamped",
+   "ledgers": [
+    {
+     "baseMs": 3600000,
+     "days": {
+      "2026-10-01": -5,
+      "nonsense": 10800000,
+      "2026-10-02": "x",
+      "2026-10-03": 356400000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "sprout",
+    "stageIndex": 1,
+    "progress": 0.375,
+    "growthMinutes": 300
+   }
+  },
+  {
+   "name": "three computers over many days",
+   "ledgers": [
+    {
+     "baseMs": 7200000,
+     "days": {
+      "2026-09-01": 7200000,
+      "2026-09-02": 7200000,
+      "2026-09-03": 7200000
+     }
+    },
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-09-01": 9000000,
+      "2026-09-04": 3600000
+     }
+    },
+    {
+     "baseMs": 0,
+     "days": {
+      "2026-09-02": 1800000,
+      "2026-09-05": 14400000
+     }
+    }
+   ],
+   "expected": {
+    "stage": "young",
+    "stageIndex": 2,
+    "progress": 0.275,
+    "growthMinutes": 930
+   }
+  }
+ ]
+}

@@ -1,0 +1,1669 @@
+{
+ "periods": [
+  {
+   "kind": "daily",
+   "key": "2026-10-12",
+   "today": "2026-10-14",
+   "expected": {
+    "kind": "daily",
+    "key": "2026-10-12",
+    "dayKeys": [
+     "2026-10-12"
+    ],
+    "elapsedKeys": [
+     "2026-10-12"
+    ],
+    "from": "2026-10-12",
+    "to": "2026-10-12",
+    "isCurrent": false
+   }
+  },
+  {
+   "kind": "weekly",
+   "key": "2026-10-14",
+   "today": "2026-10-14",
+   "expected": {
+    "kind": "weekly",
+    "key": "2026-10-12",
+    "dayKeys": [
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14",
+     "2026-10-15",
+     "2026-10-16",
+     "2026-10-17",
+     "2026-10-18"
+    ],
+    "elapsedKeys": [
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14"
+    ],
+    "from": "2026-10-12",
+    "to": "2026-10-18",
+    "isCurrent": true
+   }
+  },
+  {
+   "kind": "weekly",
+   "key": "2026-10-14",
+   "today": "2026-10-20",
+   "expected": {
+    "kind": "weekly",
+    "key": "2026-10-12",
+    "dayKeys": [
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14",
+     "2026-10-15",
+     "2026-10-16",
+     "2026-10-17",
+     "2026-10-18"
+    ],
+    "elapsedKeys": [
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14",
+     "2026-10-15",
+     "2026-10-16",
+     "2026-10-17",
+     "2026-10-18"
+    ],
+    "from": "2026-10-12",
+    "to": "2026-10-18",
+    "isCurrent": false
+   }
+  },
+  {
+   "kind": "monthly",
+   "key": "2026-10",
+   "today": "2026-10-14",
+   "expected": {
+    "kind": "monthly",
+    "key": "2026-10",
+    "dayKeys": [
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-03",
+     "2026-10-04",
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10",
+     "2026-10-11",
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14",
+     "2026-10-15",
+     "2026-10-16",
+     "2026-10-17",
+     "2026-10-18",
+     "2026-10-19",
+     "2026-10-20",
+     "2026-10-21",
+     "2026-10-22",
+     "2026-10-23",
+     "2026-10-24",
+     "2026-10-25",
+     "2026-10-26",
+     "2026-10-27",
+     "2026-10-28",
+     "2026-10-29",
+     "2026-10-30",
+     "2026-10-31"
+    ],
+    "elapsedKeys": [
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-03",
+     "2026-10-04",
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10",
+     "2026-10-11",
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14"
+    ],
+    "from": "2026-10-01",
+    "to": "2026-10-31",
+    "isCurrent": true
+   }
+  },
+  {
+   "kind": "monthly",
+   "key": null,
+   "today": "2026-10-14",
+   "expected": {
+    "kind": "monthly",
+    "key": "2026-10",
+    "dayKeys": [
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-03",
+     "2026-10-04",
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10",
+     "2026-10-11",
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14",
+     "2026-10-15",
+     "2026-10-16",
+     "2026-10-17",
+     "2026-10-18",
+     "2026-10-19",
+     "2026-10-20",
+     "2026-10-21",
+     "2026-10-22",
+     "2026-10-23",
+     "2026-10-24",
+     "2026-10-25",
+     "2026-10-26",
+     "2026-10-27",
+     "2026-10-28",
+     "2026-10-29",
+     "2026-10-30",
+     "2026-10-31"
+    ],
+    "elapsedKeys": [
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-03",
+     "2026-10-04",
+     "2026-10-05",
+     "2026-10-06",
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10",
+     "2026-10-11",
+     "2026-10-12",
+     "2026-10-13",
+     "2026-10-14"
+    ],
+    "from": "2026-10-01",
+    "to": "2026-10-31",
+    "isCurrent": true
+   }
+  },
+  {
+   "kind": "daily",
+   "key": "2026-02-31",
+   "today": "2026-10-14",
+   "expected": {
+    "error": "invalid-key"
+   }
+  },
+  {
+   "kind": "daily",
+   "key": "2026-10-20",
+   "today": "2026-10-14",
+   "expected": {
+    "error": "future-period"
+   }
+  },
+  {
+   "kind": "quarterly",
+   "key": null,
+   "today": "2026-10-14",
+   "expected": {
+    "error": "invalid-kind"
+   }
+  },
+  {
+   "kind": "weekly",
+   "key": null,
+   "today": "2026-03-30",
+   "expected": {
+    "kind": "weekly",
+    "key": "2026-03-30",
+    "dayKeys": [
+     "2026-03-30",
+     "2026-03-31",
+     "2026-04-01",
+     "2026-04-02",
+     "2026-04-03",
+     "2026-04-04",
+     "2026-04-05"
+    ],
+    "elapsedKeys": [
+     "2026-03-30"
+    ],
+    "from": "2026-03-30",
+    "to": "2026-04-05",
+    "isCurrent": true
+   }
+  },
+  {
+   "kind": "monthly",
+   "key": "2026-02",
+   "today": "2026-03-01",
+   "expected": {
+    "kind": "monthly",
+    "key": "2026-02",
+    "dayKeys": [
+     "2026-02-01",
+     "2026-02-02",
+     "2026-02-03",
+     "2026-02-04",
+     "2026-02-05",
+     "2026-02-06",
+     "2026-02-07",
+     "2026-02-08",
+     "2026-02-09",
+     "2026-02-10",
+     "2026-02-11",
+     "2026-02-12",
+     "2026-02-13",
+     "2026-02-14",
+     "2026-02-15",
+     "2026-02-16",
+     "2026-02-17",
+     "2026-02-18",
+     "2026-02-19",
+     "2026-02-20",
+     "2026-02-21",
+     "2026-02-22",
+     "2026-02-23",
+     "2026-02-24",
+     "2026-02-25",
+     "2026-02-26",
+     "2026-02-27",
+     "2026-02-28"
+    ],
+    "elapsedKeys": [
+     "2026-02-01",
+     "2026-02-02",
+     "2026-02-03",
+     "2026-02-04",
+     "2026-02-05",
+     "2026-02-06",
+     "2026-02-07",
+     "2026-02-08",
+     "2026-02-09",
+     "2026-02-10",
+     "2026-02-11",
+     "2026-02-12",
+     "2026-02-13",
+     "2026-02-14",
+     "2026-02-15",
+     "2026-02-16",
+     "2026-02-17",
+     "2026-02-18",
+     "2026-02-19",
+     "2026-02-20",
+     "2026-02-21",
+     "2026-02-22",
+     "2026-02-23",
+     "2026-02-24",
+     "2026-02-25",
+     "2026-02-26",
+     "2026-02-27",
+     "2026-02-28"
+    ],
+    "from": "2026-02-01",
+    "to": "2026-02-28",
+    "isCurrent": false
+   }
+  }
+ ],
+ "inputs": {
+  "active": {
+   "2026-10-12": {
+    "activeMs": 10800000,
+    "sessions": 3,
+    "longestSessionMs": 5400000
+   },
+   "2026-10-13": {
+    "activeMs": 7200000,
+    "sessions": 2,
+    "longestSessionMs": 4200000
+   },
+   "2026-10-14": {
+    "activeMs": 0,
+    "sessions": 0,
+    "longestSessionMs": 0
+   },
+   "2026-10-05": {
+    "activeMs": 14400000,
+    "sessions": 4,
+    "longestSessionMs": 7200000
+   },
+   "2026-10-06": {
+    "activeMs": 12600000,
+    "sessions": 3,
+    "longestSessionMs": 6000000
+   },
+   "2026-10-07": {
+    "activeMs": 7200000,
+    "sessions": 1,
+    "longestSessionMs": 7200000
+   },
+   "2026-10-08": {
+    "activeMs": 3600000,
+    "sessions": 1,
+    "longestSessionMs": 3600000
+   }
+  },
+  "hardware": {
+   "2026-10-12": {
+    "hw": {
+     "t": 1791763200000,
+     "n": 180,
+     "cpu": [
+      43.3,
+      100
+     ],
+     "ram": [
+      47.2,
+      58
+     ],
+     "temp": [
+      60.3,
+      76
+     ],
+     "gpu": [
+      20,
+      30
+     ],
+     "gpuU": [
+      40,
+      50
+     ],
+     "bat": [
+      80,
+      82,
+      77
+     ],
+     "bsm": [
+      1,
+      0,
+      0
+     ],
+     "hsm": [
+      2,
+      3,
+      1
+     ],
+     "minutes": 180
+    },
+    "hourly": [
+     {
+      "t": 1791795600000,
+      "n": 60,
+      "cpu": [
+       25,
+       60
+      ],
+      "ram": [
+       40.5,
+       43
+      ],
+      "temp": [
+       51,
+       56
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 1791799200000,
+      "n": 60,
+      "cpu": [
+       40,
+       75
+      ],
+      "ram": [
+       45.5,
+       48
+      ],
+      "temp": [
+       59,
+       64
+      ],
+      "gpu": [
+       20,
+       30
+      ],
+      "gpuU": [
+       40,
+       50
+      ],
+      "hsm": [
+       0,
+       2,
+       0
+      ]
+     },
+     {
+      "t": 1791802800000,
+      "n": 60,
+      "cpu": [
+       65,
+       100
+      ],
+      "ram": [
+       55.5,
+       58
+      ],
+      "temp": [
+       71,
+       76
+      ],
+      "bat": [
+       80,
+       82,
+       77
+      ],
+      "bsm": [
+       1,
+       0,
+       0
+      ],
+      "hsm": [
+       0,
+       1,
+       1
+      ]
+     }
+    ]
+   },
+   "2026-10-13": {
+    "hw": {
+     "t": 1791849600000,
+     "n": 120,
+     "cpu": [
+      32.5,
+      70
+     ],
+     "ram": [
+      43,
+      47
+     ],
+     "temp": [
+      54.5,
+      61
+     ],
+     "hsm": [
+      4,
+      0,
+      0
+     ],
+     "minutes": 120
+    },
+    "hourly": [
+     {
+      "t": 1791900000000,
+      "n": 60,
+      "cpu": [
+       30,
+       65
+      ],
+      "ram": [
+       41.5,
+       44
+      ],
+      "temp": [
+       53,
+       58
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 1791903600000,
+      "n": 60,
+      "cpu": [
+       35,
+       70
+      ],
+      "ram": [
+       44.5,
+       47
+      ],
+      "temp": [
+       56,
+       61
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   "2026-10-14": {
+    "hw": {
+     "t": 1791936000000,
+     "n": 60,
+     "cpu": [
+      27,
+      62
+     ],
+     "ram": [
+      39.5,
+      42
+     ],
+     "temp": [
+      50,
+      55
+     ],
+     "bat": [
+      90,
+      92,
+      87
+     ],
+     "bsm": [
+      1,
+      0,
+      0
+     ],
+     "hsm": [
+      2,
+      0,
+      0
+     ],
+     "minutes": 60
+    },
+    "hourly": [
+     {
+      "t": 1791964800000,
+      "n": 60,
+      "cpu": [
+       27,
+       62
+      ],
+      "ram": [
+       39.5,
+       42
+      ],
+      "temp": [
+       50,
+       55
+      ],
+      "bat": [
+       90,
+       92,
+       87
+      ],
+      "bsm": [
+       1,
+       0,
+       0
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   "2026-10-05": {
+    "hw": {
+     "t": 1791158400000,
+     "n": 180,
+     "cpu": [
+      35.7,
+      73
+     ],
+     "ram": [
+      42.5,
+      46
+     ],
+     "temp": [
+      55.3,
+      62
+     ],
+     "hsm": [
+      6,
+      0,
+      0
+     ],
+     "minutes": 180
+    },
+    "hourly": [
+     {
+      "t": 1791194400000,
+      "n": 60,
+      "cpu": [
+       35,
+       70
+      ],
+      "ram": [
+       42.5,
+       45
+      ],
+      "temp": [
+       55,
+       60
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 1791198000000,
+      "n": 60,
+      "cpu": [
+       38,
+       73
+      ],
+      "ram": [
+       43.5,
+       46
+      ],
+      "temp": [
+       57,
+       62
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 1791201600000,
+      "n": 60,
+      "cpu": [
+       34,
+       69
+      ],
+      "ram": [
+       41.5,
+       44
+      ],
+      "temp": [
+       54,
+       59
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     }
+    ]
+   },
+   "2026-10-06": {
+    "hw": {
+     "t": 1791244800000,
+     "n": 180,
+     "cpu": [
+      36.7,
+      74
+     ],
+     "ram": [
+      43.2,
+      47
+     ],
+     "temp": [
+      56.3,
+      63
+     ],
+     "hsm": [
+      6,
+      0,
+      0
+     ],
+     "minutes": 180
+    },
+    "hourly": [
+     {
+      "t": 1791280800000,
+      "n": 60,
+      "cpu": [
+       36,
+       71
+      ],
+      "ram": [
+       42.5,
+       45
+      ],
+      "temp": [
+       56,
+       61
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 1791284400000,
+      "n": 60,
+      "cpu": [
+       39,
+       74
+      ],
+      "ram": [
+       44.5,
+       47
+      ],
+      "temp": [
+       58,
+       63
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 1791288000000,
+      "n": 60,
+      "cpu": [
+       35,
+       70
+      ],
+      "ram": [
+       42.5,
+       45
+      ],
+      "temp": [
+       55,
+       60
+      ],
+      "hsm": [
+       2,
+       0,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  "healthEvents": [
+   {
+    "k": "start",
+    "id": "cpuOverheat",
+    "t": 1791799500000,
+    "sev": "warning",
+    "v": [
+     {
+      "key": "cpuTemp",
+      "value": 91
+     }
+    ]
+   },
+   {
+    "k": "sev",
+    "id": "cpuOverheat",
+    "t": 1791800400000,
+    "sev": "critical"
+   },
+   {
+    "k": "notify",
+    "id": "cpuOverheat",
+    "t": 1791800460000
+   },
+   {
+    "k": "end",
+    "id": "cpuOverheat",
+    "t": 1791802200000
+   },
+   {
+    "k": "start",
+    "id": "ramHigh",
+    "t": 1791802800000,
+    "sev": "warning",
+    "v": [
+     {
+      "key": "percent",
+      "value": 93,
+      "unit": "%"
+     }
+    ]
+   },
+   {
+    "k": "end",
+    "id": "ramHigh",
+    "t": 1791805200000,
+    "why": "interrupted"
+   },
+   {
+    "k": "start",
+    "id": "storageLow",
+    "t": 1791900000000,
+    "sev": "info",
+    "v": []
+   },
+   {
+    "k": "start",
+    "id": "cpuOverheat",
+    "t": 1791198000000,
+    "sev": "warning",
+    "v": []
+   },
+   {
+    "k": "end",
+    "id": "cpuOverheat",
+    "t": 1791199800000
+   }
+  ]
+ },
+ "week": {
+  "keys": [
+   "2026-10-12",
+   "2026-10-13",
+   "2026-10-14",
+   "2026-10-15",
+   "2026-10-16",
+   "2026-10-17",
+   "2026-10-18"
+  ],
+  "elapsedKeys": [
+   "2026-10-12",
+   "2026-10-13",
+   "2026-10-14",
+   "2026-10-15",
+   "2026-10-16",
+   "2026-10-17",
+   "2026-10-18"
+  ],
+  "prevKeys": [
+   "2026-10-05",
+   "2026-10-06",
+   "2026-10-07",
+   "2026-10-08",
+   "2026-10-09",
+   "2026-10-10",
+   "2026-10-11"
+  ],
+  "today": "2026-10-20"
+ },
+ "expected": {
+  "usage": {
+   "available": true,
+   "totalMs": 18000000,
+   "knownDays": 3,
+   "activeDays": 2,
+   "avgPerKnownDayMs": 6000000,
+   "avgPerActiveDayMs": 9000000,
+   "bestDay": {
+    "dayKey": "2026-10-12",
+    "ms": 10800000
+   },
+   "sessions": 5,
+   "longestSessionMs": 5400000,
+   "days": [
+    {
+     "dayKey": "2026-10-12",
+     "weekday": 0,
+     "activeMs": 10800000,
+     "known": true,
+     "sessions": 3,
+     "longestSessionMs": 5400000
+    },
+    {
+     "dayKey": "2026-10-13",
+     "weekday": 1,
+     "activeMs": 7200000,
+     "known": true,
+     "sessions": 2,
+     "longestSessionMs": 4200000
+    },
+    {
+     "dayKey": "2026-10-14",
+     "weekday": 2,
+     "activeMs": 0,
+     "known": true,
+     "sessions": 0,
+     "longestSessionMs": 0
+    },
+    {
+     "dayKey": "2026-10-15",
+     "weekday": 3,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    },
+    {
+     "dayKey": "2026-10-16",
+     "weekday": 4,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    },
+    {
+     "dayKey": "2026-10-17",
+     "weekday": 5,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    },
+    {
+     "dayKey": "2026-10-18",
+     "weekday": 6,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    }
+   ]
+  },
+  "usagePrev": {
+   "available": true,
+   "totalMs": 37800000,
+   "knownDays": 4,
+   "activeDays": 4,
+   "avgPerKnownDayMs": 9450000,
+   "avgPerActiveDayMs": 9450000,
+   "bestDay": {
+    "dayKey": "2026-10-05",
+    "ms": 14400000
+   },
+   "sessions": 9,
+   "longestSessionMs": 7200000,
+   "days": [
+    {
+     "dayKey": "2026-10-05",
+     "weekday": 0,
+     "activeMs": 14400000,
+     "known": true,
+     "sessions": 4,
+     "longestSessionMs": 7200000
+    },
+    {
+     "dayKey": "2026-10-06",
+     "weekday": 1,
+     "activeMs": 12600000,
+     "known": true,
+     "sessions": 3,
+     "longestSessionMs": 6000000
+    },
+    {
+     "dayKey": "2026-10-07",
+     "weekday": 2,
+     "activeMs": 7200000,
+     "known": true,
+     "sessions": 1,
+     "longestSessionMs": 7200000
+    },
+    {
+     "dayKey": "2026-10-08",
+     "weekday": 3,
+     "activeMs": 3600000,
+     "known": true,
+     "sessions": 1,
+     "longestSessionMs": 3600000
+    },
+    {
+     "dayKey": "2026-10-09",
+     "weekday": 4,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    },
+    {
+     "dayKey": "2026-10-10",
+     "weekday": 5,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    },
+    {
+     "dayKey": "2026-10-11",
+     "weekday": 6,
+     "activeMs": null,
+     "known": false,
+     "sessions": 0,
+     "longestSessionMs": 0
+    }
+   ]
+  },
+  "aggregate": {
+   "merged": {
+    "t": 0,
+    "n": 360,
+    "cpu": [
+     37,
+     100
+    ],
+    "ram": [
+     44.5,
+     58
+    ],
+    "temp": [
+     56.7,
+     76
+    ],
+    "gpu": [
+     20,
+     30
+    ],
+    "gpuU": [
+     40,
+     50
+    ],
+    "bat": [
+     82.5,
+     92,
+     77
+    ],
+    "bsm": [
+     2,
+     0,
+     0
+    ],
+    "hsm": [
+     8,
+     3,
+     1
+    ]
+   },
+   "minutes": 360,
+   "metrics": {
+    "cpuUsage": {
+     "id": "cpuUsage",
+     "unit": "%",
+     "decimals": 1,
+     "available": true,
+     "avg": 37,
+     "max": 100,
+     "min": null,
+     "maxAt": {
+      "value": 100,
+      "t": 1791802800000,
+      "level": "hour"
+     },
+     "daysWithData": 3
+    },
+    "cpuTemp": {
+     "id": "cpuTemp",
+     "unit": "°C",
+     "decimals": 1,
+     "available": true,
+     "avg": 56.7,
+     "max": 76,
+     "min": null,
+     "maxAt": {
+      "value": 76,
+      "t": 1791802800000,
+      "level": "hour"
+     },
+     "daysWithData": 3
+    },
+    "cpuPower": {
+     "id": "cpuPower",
+     "unit": "W",
+     "decimals": 1,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuUsage": {
+     "id": "gpuUsage",
+     "unit": "%",
+     "decimals": 1,
+     "available": true,
+     "avg": 40,
+     "max": 50,
+     "min": null,
+     "maxAt": {
+      "value": 50,
+      "t": 1791799200000,
+      "level": "hour"
+     },
+     "daysWithData": 1
+    },
+    "gpuTemp": {
+     "id": "gpuTemp",
+     "unit": "°C",
+     "decimals": 1,
+     "available": true,
+     "avg": 20,
+     "max": 30,
+     "min": null,
+     "maxAt": {
+      "value": 30,
+      "t": 1791799200000,
+      "level": "hour"
+     },
+     "daysWithData": 1
+    },
+    "gpuPower": {
+     "id": "gpuPower",
+     "unit": "W",
+     "decimals": 1,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuClock": {
+     "id": "gpuClock",
+     "unit": "MHz",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuMemory": {
+     "id": "gpuMemory",
+     "unit": "MB",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "ramUsage": {
+     "id": "ramUsage",
+     "unit": "%",
+     "decimals": 1,
+     "available": true,
+     "avg": 44.5,
+     "max": 58,
+     "min": null,
+     "maxAt": {
+      "value": 58,
+      "t": 1791802800000,
+      "level": "hour"
+     },
+     "daysWithData": 3
+    },
+    "ramUsed": {
+     "id": "ramUsed",
+     "unit": "GB",
+     "decimals": 2,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "batteryLevel": {
+     "id": "batteryLevel",
+     "unit": "%",
+     "decimals": 0,
+     "available": true,
+     "avg": 82.5,
+     "max": 92,
+     "min": 77,
+     "maxAt": {
+      "value": 92,
+      "t": 1791964800000,
+      "level": "hour"
+     },
+     "daysWithData": 2
+    },
+    "batteryVoltage": {
+     "id": "batteryVoltage",
+     "unit": "V",
+     "decimals": 2,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "fan": {
+     "id": "fan",
+     "unit": "RPM",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    }
+   },
+   "daysWithHardware": 3
+  },
+  "aggregatePrev": {
+   "merged": {
+    "t": 0,
+    "n": 360,
+    "cpu": [
+     36.2,
+     74
+    ],
+    "ram": [
+     42.9,
+     47
+    ],
+    "temp": [
+     55.8,
+     63
+    ],
+    "hsm": [
+     12,
+     0,
+     0
+    ]
+   },
+   "minutes": 360,
+   "metrics": {
+    "cpuUsage": {
+     "id": "cpuUsage",
+     "unit": "%",
+     "decimals": 1,
+     "available": true,
+     "avg": 36.2,
+     "max": 74,
+     "min": null,
+     "maxAt": {
+      "value": 74,
+      "t": 1791284400000,
+      "level": "hour"
+     },
+     "daysWithData": 2
+    },
+    "cpuTemp": {
+     "id": "cpuTemp",
+     "unit": "°C",
+     "decimals": 1,
+     "available": true,
+     "avg": 55.8,
+     "max": 63,
+     "min": null,
+     "maxAt": {
+      "value": 63,
+      "t": 1791284400000,
+      "level": "hour"
+     },
+     "daysWithData": 2
+    },
+    "cpuPower": {
+     "id": "cpuPower",
+     "unit": "W",
+     "decimals": 1,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuUsage": {
+     "id": "gpuUsage",
+     "unit": "%",
+     "decimals": 1,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuTemp": {
+     "id": "gpuTemp",
+     "unit": "°C",
+     "decimals": 1,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuPower": {
+     "id": "gpuPower",
+     "unit": "W",
+     "decimals": 1,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuClock": {
+     "id": "gpuClock",
+     "unit": "MHz",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "gpuMemory": {
+     "id": "gpuMemory",
+     "unit": "MB",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "ramUsage": {
+     "id": "ramUsage",
+     "unit": "%",
+     "decimals": 1,
+     "available": true,
+     "avg": 42.9,
+     "max": 47,
+     "min": null,
+     "maxAt": {
+      "value": 47,
+      "t": 1791284400000,
+      "level": "hour"
+     },
+     "daysWithData": 2
+    },
+    "ramUsed": {
+     "id": "ramUsed",
+     "unit": "GB",
+     "decimals": 2,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "batteryLevel": {
+     "id": "batteryLevel",
+     "unit": "%",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "batteryVoltage": {
+     "id": "batteryVoltage",
+     "unit": "V",
+     "decimals": 2,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    },
+    "fan": {
+     "id": "fan",
+     "unit": "RPM",
+     "decimals": 0,
+     "available": false,
+     "avg": null,
+     "max": null,
+     "min": null,
+     "maxAt": null,
+     "daysWithData": 0
+    }
+   },
+   "daysWithHardware": 2
+  },
+  "episodes": [
+   {
+    "id": "cpuOverheat",
+    "start": 1791799500000,
+    "end": 1791802200000,
+    "severity": "critical",
+    "interrupted": false,
+    "notifications": 1,
+    "values": [
+     {
+      "key": "cpuTemp",
+      "value": 91
+     }
+    ],
+    "durationMs": 2700000
+   },
+   {
+    "id": "ramHigh",
+    "start": 1791802800000,
+    "end": 1791805200000,
+    "severity": "warning",
+    "interrupted": true,
+    "notifications": 0,
+    "values": [
+     {
+      "key": "percent",
+      "value": 93,
+      "unit": "%"
+     }
+    ],
+    "durationMs": null
+   },
+   {
+    "id": "storageLow",
+    "start": 1791900000000,
+    "end": null,
+    "severity": "info",
+    "interrupted": false,
+    "notifications": 0,
+    "values": [],
+    "durationMs": null
+   }
+  ],
+  "health": {
+   "recorded": true,
+   "evaluatedMinutes": 12,
+   "statusMinutes": {
+    "healthy": 8,
+    "warning": 3,
+    "critical": 1
+   },
+   "episodeCount": 3,
+   "worst": "critical",
+   "problems": [
+    {
+     "id": "cpuOverheat",
+     "count": 1,
+     "severity": "critical",
+     "totalMs": 2700000,
+     "durationKnown": true,
+     "lastAt": 1791799500000,
+     "notifications": 1
+    },
+    {
+     "id": "ramHigh",
+     "count": 1,
+     "severity": "warning",
+     "totalMs": null,
+     "durationKnown": false,
+     "lastAt": 1791802800000,
+     "notifications": 0
+    },
+    {
+     "id": "storageLow",
+     "count": 1,
+     "severity": "info",
+     "totalMs": null,
+     "durationKnown": false,
+     "lastAt": 1791900000000,
+     "notifications": 0
+    }
+   ],
+   "notifications": 1,
+   "episodes": [
+    {
+     "id": "cpuOverheat",
+     "severity": "critical",
+     "start": 1791799500000,
+     "end": 1791802200000,
+     "durationMs": 2700000,
+     "interrupted": false,
+     "notifications": 1,
+     "values": [
+      {
+       "key": "cpuTemp",
+       "value": 91
+      }
+     ]
+    },
+    {
+     "id": "ramHigh",
+     "severity": "warning",
+     "start": 1791802800000,
+     "end": 1791805200000,
+     "durationMs": null,
+     "interrupted": true,
+     "notifications": 0,
+     "values": [
+      {
+       "key": "percent",
+       "value": 93,
+       "unit": "%"
+      }
+     ]
+    },
+    {
+     "id": "storageLow",
+     "severity": "info",
+     "start": 1791900000000,
+     "end": null,
+     "durationMs": null,
+     "interrupted": false,
+     "notifications": 0,
+     "values": []
+    }
+   ],
+   "episodesShown": 3
+  },
+  "healthPrev": {
+   "recorded": true,
+   "evaluatedMinutes": 12,
+   "statusMinutes": {
+    "healthy": 12,
+    "warning": 0,
+    "critical": 0
+   },
+   "episodeCount": 1,
+   "worst": "warning",
+   "problems": [
+    {
+     "id": "cpuOverheat",
+     "count": 1,
+     "severity": "warning",
+     "totalMs": 1800000,
+     "durationKnown": true,
+     "lastAt": 1791198000000,
+     "notifications": 0
+    }
+   ],
+   "notifications": 1,
+   "episodes": [
+    {
+     "id": "cpuOverheat",
+     "severity": "warning",
+     "start": 1791198000000,
+     "end": 1791199800000,
+     "durationMs": 1800000,
+     "interrupted": false,
+     "notifications": 0,
+     "values": []
+    }
+   ],
+   "episodesShown": 1
+  },
+  "comparison": {
+   "available": true,
+   "reason": null,
+   "days": 7,
+   "previousKey": "2026-10-05",
+   "basis": "average per recorded day",
+   "usage": {
+    "currentAvgMs": 6000000,
+    "previousAvgMs": 9450000,
+    "deltaMs": -3450000,
+    "deltaPct": -36.5
+   },
+   "metrics": {
+    "cpuUsage": {
+     "unit": "%",
+     "currentAvg": 37,
+     "previousAvg": 36.2,
+     "deltaAvg": 0.8,
+     "currentMax": 100,
+     "previousMax": 74,
+     "deltaMax": 26
+    },
+    "cpuTemp": {
+     "unit": "°C",
+     "currentAvg": 56.7,
+     "previousAvg": 55.8,
+     "deltaAvg": 0.9,
+     "currentMax": 76,
+     "previousMax": 63,
+     "deltaMax": 13
+    },
+    "ramUsage": {
+     "unit": "%",
+     "currentAvg": 44.5,
+     "previousAvg": 42.9,
+     "deltaAvg": 1.6,
+     "currentMax": 58,
+     "previousMax": 47,
+     "deltaMax": 11
+    }
+   },
+   "episodes": {
+    "current": 3,
+    "previous": 1
+   }
+  },
+  "thin": {
+   "keys": [
+    "2026-10-12",
+    "2026-10-13",
+    "2026-10-14",
+    "2026-10-15",
+    "2026-10-16",
+    "2026-10-17",
+    "2026-10-18"
+   ],
+   "elapsedKeys": [
+    "2026-10-12",
+    "2026-10-13"
+   ],
+   "today": "2026-10-13",
+   "comparison": {
+    "available": false,
+    "reason": "current-too-short",
+    "days": 2,
+    "needDays": 3
+   }
+  }
+ }
+}

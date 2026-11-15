@@ -120,6 +120,14 @@ The site is built with plain HTML, CSS and JavaScript, uses the Fraunces, Work S
 
 <br>
 
+## Contributors & Testers
+
+A special thanks to everyone who has helped make Petali better throughout its development.
+
+- [**Blesk2oo**](https://github.com/Blesk2oo) — Beta testing and bug reporting.
+
+<br>
+
 ## License
 
 Petali is licensed under the GNU General Public License v3.0.

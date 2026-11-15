@@ -1,0 +1,35 @@
+# Local / small-server deployment:  cp .env.example .env  (fill it)  &&  docker compose up -d --build
+# Secrets come from your environment or .env; nothing secret is written in this file.
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: petali
+      POSTGRES_DB: petali_cloud
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - petali_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U petali -d petali_cloud"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8787
+      DATABASE_URL: postgres://petali:${POSTGRES_PASSWORD}@db:5432/petali_cloud
+      DATABASE_SSL: "false"          # the database is on the private compose network
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?set JWT_ACCESS_SECRET}
+      TRUST_PROXY: ${TRUST_PROXY:-1}
+    ports:
+      - "127.0.0.1:8787:8787"        # put a TLS-terminating reverse proxy in front; do not expose this port directly
+volumes:
+  petali_pgdata:

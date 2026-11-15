@@ -1,0 +1,69 @@
+# Petali website + Petali ID (the Netlify site, https://petali.netlify.app). No build step: the site is static files published from the repository root.
+#   /      the marketing site (index.html, feedback.html) - unchanged
+#   /id/   Petali ID: the complete account app and installable PWA (id/)
+# There is no /app route.
+
+# ---- Petali ID: API proxy -------------------------------------------------------------------------------------------------------------
+# The browser talks to the Petali Cloud THROUGH the site, so requests are same-origin and the session cookie is first-party (HttpOnly, SameSite=Strict).
+# Must stay the FIRST rule and forced. Change the target if the backend moves.
+[[redirects]]
+  from = "/id/api/*"
+  to = "https://petali-v2.onrender.com/:splat"
+  status = 200
+  force = true
+
+# ---- Petali ID: routing --------------------------------------------------------------------------------------------------------------
+# URL strategy: NO redirects for the app. /id, /id/ and every /id/... URL is answered with the app shell (status 200 = a rewrite; the address bar keeps
+# the URL). IMPORTANT: Netlify matches redirect rules WITHOUT regard to a trailing slash and a rule cannot add or remove one, so a rule such as
+# "/id -> /id/ 301" also matches "/id/" and redirects it to itself = ERR_TOO_MANY_REDIRECTS (this was the Phase 5 bug). Never add one.
+# The app itself moves /id to /id/ in the address bar with history.replaceState (no HTTP redirect), because the PWA scope is /id/.
+[[redirects]]
+  from = "/id"
+  to = "/id/index.html"
+  status = 200
+  force = true
+
+# Every other /id/... URL (login, register, computers, computers/<id>, plant, usage, health, reports, settings, more, and refreshes of them) is the app.
+# Real files (js, css, icons, manifest, sw.js, vendor) are served first because this rule is NOT forced.
+[[redirects]]
+  from = "/id/*"
+  to = "/id/index.html"
+  status = 200
+
+# Developer tests/tools live in the repository but are not part of the site.
+[[redirects]]
+  from = "/id-dev/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# ---- headers ------------------------------------------------------------------------------------------------------------------------
+[[headers]]
+  for = "/id/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cache-Control = "no-cache"
+
+# The service worker must never be served from a stale cache, and may control exactly /id/.
+[[headers]]
+  for = "/id/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Service-Worker-Allowed = "/id/"
+    Content-Type = "text/javascript; charset=utf-8"
+
+[[headers]]
+  for = "/id/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "no-cache"
+
+# API responses (through the proxy) must never be stored by a browser or a CDN.
+[[headers]]
+  for = "/id/api/*"
+  [headers.values]
+    Cache-Control = "no-store"

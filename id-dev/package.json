@@ -1,0 +1,8 @@
+{
+  "name": "petali-id-dev",
+  "private": true,
+  "type": "module",
+  "description": "Tests for Petali ID (the /id web app and PWA). Not part of the deployed site.",
+  "scripts": { "test": "node --test --test-concurrency=1 test/*.test.js" },
+  "devDependencies": { "fake-indexeddb": "^6.0.0", "jsdom": "^25.0.0" }
+}

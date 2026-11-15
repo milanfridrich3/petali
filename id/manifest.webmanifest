@@ -1,0 +1,23 @@
+{
+  "name": "Petali ID",
+  "short_name": "Petali",
+  "description": "Your Petali account: computers, plant, usage, Device Health and reports.",
+  "id": "/id/",
+  "start_url": "/id/",
+  "scope": "/id/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#ebf5e9",
+  "background_color": "#ebf5e9",
+  "lang": "en",
+  "categories": ["utilities", "productivity"],
+  "icons": [
+    { "src": "/id/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/id/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/id/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Computers", "url": "/id/computers", "icons": [{ "src": "/id/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Plant", "url": "/id/plant", "icons": [{ "src": "/id/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
