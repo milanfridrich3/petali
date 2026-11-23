@@ -1,7 +1,16 @@
-# Petali website + Petali ID (the Netlify site, https://petali.netlify.app). No build step: the site is static files published from the repository root.
-#   /      the marketing site (index.html, feedback.html) - unchanged
-#   /id/   Petali ID: the complete account app and installable PWA (id/)
+# Petali website + Petali ID (the Netlify site, https://petali.netlify.app). Static files published from the repository root. The ONLY build step writes
+# support-config.json (site root) from the SUPPORT_* environment variables (see tools/generate-support-config.mjs and PETALI-SUPPORT.md); no secret is involved.
+#   /         the marketing site (index.html, feedback.html) - unchanged
+#   /support  Support Petali: the standalone public page (support.html + support-page.js + support-assets/). Independent of Petali ID.
+#   /id/      Petali ID: the complete account app and installable PWA (id/). It has NO support page: /id/support does not exist (404).
 # There is no /app route.
+
+[build]
+  command = "node tools/generate-support-config.mjs"
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "22"   # the generator imports the website's own ES modules (.js without a package.json): Node 22.12+ detects them
 
 # ---- Petali ID: API proxy -------------------------------------------------------------------------------------------------------------
 # The browser talks to the Petali Cloud THROUGH the site, so requests are same-origin and the session cookie is first-party (HttpOnly, SameSite=Strict).
@@ -9,6 +18,15 @@
 [[redirects]]
   from = "/id/api/*"
   to = "https://petali-v2.onrender.com/:splat"
+  status = 200
+  force = true
+
+# ---- Support Petali: the standalone public page ------------------------------------------------------------------------------------------
+# /support (with or without a trailing slash) is answered with support.html (status 200 = a rewrite; the address bar keeps /support). The page has no relation to
+# Petali ID: its code lives in support-assets/ and it only reads /support-config.json.
+[[redirects]]
+  from = "/support"
+  to = "/support.html"
   status = 200
   force = true
 
@@ -23,6 +41,20 @@
   status = 200
   force = true
 
+# There is NO support page inside Petali ID. /id/support (and anything below it) must answer with the normal not-found response, NOT the app shell and NOT a redirect.
+# These rules must stay ABOVE the catch-all "/id/*" rule below (the first matching rule wins).
+[[redirects]]
+  from = "/id/support"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/id/support/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
 # Every other /id/... URL (login, register, computers, computers/<id>, plant, usage, health, reports, settings, more, and refreshes of them) is the app.
 # Real files (js, css, icons, manifest, sw.js, vendor) are served first because this rule is NOT forced.
 [[redirects]]
@@ -33,6 +65,19 @@
 # Developer tests/tools live in the repository but are not part of the site.
 [[redirects]]
   from = "/id-dev/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# The backend sources and the build tools sit in the same repository but are not part of the site.
+[[redirects]]
+  from = "/cloud/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/tools/*"
   to = "/404.html"
   status = 404
   force = true
@@ -67,3 +112,22 @@
   for = "/id/api/*"
   [headers.values]
     Cache-Control = "no-store"
+
+# Support Petali: the public recipient configuration is generated at deploy time (site root) and must always be read fresh.
+[[headers]]
+  for = "/support-config.json"
+  [headers.values]
+    Cache-Control = "no-store"
+    Content-Type = "application/json; charset=utf-8"
+
+# ---- headers for the whole site (marketing pages included) ---------------------------------------------------------------------------
+# The marketing pages use inline <script>/<style> and Google Fonts and post the feedback form to formsubmit.co, so they get NO Content-Security-Policy here (a policy that
+# allows 'unsafe-inline' would protect nothing); they receive the hardening headers below. /id/* keeps its own strict Content-Security-Policy (set above) and does not rely on this block.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    X-Frame-Options = "DENY"

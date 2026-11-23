@@ -190,7 +190,7 @@ describe('unconfigured server (the current production state) and enforcement off
     assert.notEqual((await env.call('GET', '/v1/devices', { token: r.json.tokens.accessToken })).status, 403);
     const rs = await env.call('POST', '/v1/auth/resend-verification', { token: r.json.tokens.accessToken, body: {} }); assert.equal(rs.status, 503); assert.equal(rs.json.error.code, 'email_not_configured');
   });
-  it('the health endpoint reports the 1.5.0 service version', async () => { assert.equal((await env.call('GET', '/v1/health')).json.serviceVersion, '1.5.0'); });
+  it('the health endpoint reports the 1.6.0 service version', async () => { assert.equal((await env.call('GET', '/v1/health')).json.serviceVersion, '1.6.0'); });
 });
 
 describe('GET /v1/web/appearance (the desktop night schedule for Petali ID "Automatic")', () => {

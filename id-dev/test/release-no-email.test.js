@@ -34,6 +34,6 @@ describe('web Petali ID without an email service', () => {
     assert.match(read('id/js/views-more.js'), /Not confirmed yet/);
   });
   it('the service worker shell version was bumped for this release build', () => {
-    assert.match(read('id/sw.js'), /const VERSION = 'v4-1\.5\.0'/);
+    assert.match(read('id/sw.js'), /const VERSION = 'v6-1\.6\.0'/);
   });
 });

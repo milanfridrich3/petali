@@ -63,6 +63,9 @@ export function createDeviceService(deps: { pool: Pool; auth: AuthService; now?:
         const bound = (await tx.query<{ device_id: string | null }>('SELECT device_id FROM sessions WHERE id = $1 AND user_id = $2', [sessionId, userId])).rows[0]?.device_id ?? null;
         if ((bound === d.id || input.currentDeviceId === d.id) && input.allowCurrent !== true) throw conflict('cannot_remove_current_device', 'This is the computer you are using. Confirm explicitly to remove it and stop syncing it.');
         await tx.query('UPDATE devices SET revoked_at = now() WHERE id = $1 AND user_id = $2', [deviceId, userId]);
+        // Petali Family: a removed computer disappears from the family view and its open hand-over (if any) ends. Nothing else of the family is touched.
+        await tx.query('DELETE FROM family_devices WHERE device_id = $1', [deviceId]);
+        await tx.query(`UPDATE family_device_transfers SET status = 'cancelled', responded_at = now() WHERE device_id = $1 AND status = 'pending'`, [deviceId]);
         const ended = await tx.query("UPDATE sessions SET revoked_at = now(), revoked_reason = 'device_removed' WHERE user_id = $1 AND device_id = $2 AND revoked_at IS NULL", [userId, deviceId]);
         revokedSessions = ended.rowCount ?? 0;
         await auth.recordEvent(tx, userId, 'session_revoked', client, sessionId, `device removed (${revokedSessions} session(s))`);

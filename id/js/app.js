@@ -39,16 +39,18 @@ function navIcon(name) { if (name) return icon(name); const e = document.createE
 
 // The PWA scope is /id/, so the dashboard's address inside the app is always /id/ (never the out-of-scope /id).
 const inScope = (p) => (p === BASE ? `${BASE}/` : p.startsWith(`${BASE}?`) ? `${BASE}/${p.slice(BASE.length)}` : p);
+let explicitNav = false;   // true when the person (or the browser's back button) asked for this page, as opposed to the session state changing underneath it
 function navigate(rawPath, { replace = false } = {}) {
-  const path = inScope(rawPath); if (replace) history.replaceState({}, '', path); else history.pushState({}, '', path); route(); }
+  const path = inScope(rawPath); if (replace) history.replaceState({}, '', path); else history.pushState({}, '', path); explicitNav = true; route(); }
 
 function paintChrome(routeInfo) {
   const st = session.state(); const authed = st.status === 'authenticated' || st.status === 'offline';
   clear(shell.header).append(h('a', { class: 'brand', href: `${BASE}/`, 'aria-label': 'Petali ID' }, brandMark(), 'petali', h('span', { class: 'brand-badge', text: 'ID' })), ...(authed && st.user ? [h('span', { class: 'who', text: st.user.displayName || st.user.email || '' })] : []));   // never append null: Element.append would write the text "null"
   clear(shell.nav);
-  if (authed && !routeInfo.public) for (const [name, href, label, ic] of NAV) shell.nav.append(h('a', { href, class: 'tab', 'aria-current': routeInfo.name === name || (name === 'more' && MORE_ROUTES.has(routeInfo.name)) || (name === 'computers' && routeInfo.name === 'computer') ? 'page' : null }, navIcon(ic), h('span', { text: label })));
-  shell.nav.hidden = !(authed && !routeInfo.public);
-  document.body.classList.toggle('has-nav', authed && !routeInfo.public);
+  const showNav = authed && (!routeInfo.public || routeInfo.nav === true);   // a public route may opt in to the navigation (nav: true) for a signed-in person
+  if (showNav) for (const [name, href, label, ic] of NAV) shell.nav.append(h('a', { href, class: 'tab', 'aria-current': routeInfo.name === name || (name === 'more' && MORE_ROUTES.has(routeInfo.name)) || (name === 'computers' && routeInfo.name === 'computer') ? 'page' : null }, navIcon(ic), h('span', { text: label })));
+  shell.nav.hidden = !showNav;
+  document.body.classList.toggle('has-nav', showNav);
   document.body.classList.toggle('is-auth', routeInfo.name === 'login' || routeInfo.name === 'register' || st.status === 'unreachable');
 }
 
@@ -129,7 +131,7 @@ document.addEventListener('click', (e) => {
   if (u.origin !== location.origin || (u.pathname !== BASE && !u.pathname.startsWith(`${BASE}/`))) return;     // the landing page and everything else: normal navigation
   e.preventDefault(); navigate(u.pathname + u.search);
 });
-window.addEventListener('popstate', route);
+window.addEventListener('popstate', () => { explicitNav = true; route(); });
 window.addEventListener('online', () => { slowNotice = false; paintBanner(); session.retry().then(() => route()); });
 window.addEventListener('offline', paintBanner);
 theme.start();

@@ -26,7 +26,7 @@ export function accountRoutes(auth: AuthService, account: AccountService, config
 
   r.patch('/profile', async (req, res, next) => {
     try {
-      const body = parseBody(profileSchema, req);
+      const body = parseBody(profileSchema, req, { moderate: ['displayName'] });
       res.json({ user: await account.updateProfile(me(req).userId, body.displayName === undefined ? {} : { displayName: body.displayName }) });
     } catch (e) { next(e); }
   });

@@ -6,14 +6,14 @@
  * other origins, and any page outside /id/. Account data is NOT cached here at all: the app keeps its own account-tagged copies in IndexedDB,
  * which logout and account switching wipe.
  * NAVIGATION: network first (4 s), then the cached shell, so every /id/... route opens offline and always shows the app, never the landing page. */
-const VERSION = 'v4-1.5.0';      // bumping this drops every older cached shell, so an installed PWA never keeps running an outdated theme/auth script
+const VERSION = 'v7-1.6.0';      // bumping this drops every older cached shell, so an installed PWA never keeps running an outdated theme/auth script
 const PREFIX = 'petali-id-';
 const SHELL_CACHE = `${PREFIX}shell-${VERSION}`;
 const SHELL_ENTRY = '/id/index.html';
 const PRECACHE = [
   '/id/index.html', '/id/manifest.webmanifest', '/id/css/app.css',
   '/id/js/app.js', '/id/js/api.js', '/id/js/cache.js', '/id/js/data.js', '/id/js/format.js', '/id/js/router.js', '/id/js/session.js', '/id/js/ui.js', '/id/js/theme.js', '/id/js/auth-rules.js', '/id/js/version.js',
-  '/id/js/view-kit.js', '/id/js/views-auth.js', '/id/js/views-main.js', '/id/js/views-more.js',
+  '/id/js/view-kit.js', '/id/js/views-auth.js', '/id/js/views-main.js', '/id/js/views-more.js', 
   '/id/vendor/health-text.js', '/id/vendor/plant-visuals.js', '/id/vendor/plant-species.js', '/id/vendor/app-categories.js', '/id/vendor/app-names.js', '/id/vendor/theme-schedule.js', '/id/vendor/widget-icons.js', '/id/js/theme-boot.js',
   '/id/icons/icon-192.png', '/id/icons/apple-touch-icon.png', '/logo-mark.png',
 ];

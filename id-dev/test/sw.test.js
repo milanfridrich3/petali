@@ -56,7 +56,7 @@ describe('service worker', () => {
   it('does not cache or handle arbitrary files and never the worker itself', async () => { assert.equal(await h.handled('/id/sw.js'), undefined); assert.equal(await h.handled('/id/secrets.json'), undefined); });
   it('activate removes old cache versions only', async () => {
     const h2 = harness(); await h2.installed(); h2.stores.set('petali-id-shell-v0', new Map()); h2.stores.set('other-site-cache', new Map()); await h2.dispatch('activate', {});
-    assert.ok(!h2.stores.has('petali-id-shell-v0')); assert.ok(h2.stores.has('other-site-cache')); assert.ok(h2.stores.has('petali-id-shell-v4-1.5.0'));
+    assert.ok(!h2.stores.has('petali-id-shell-v0')); assert.ok(h2.stores.has('other-site-cache')); assert.ok(h2.stores.has('petali-id-shell-v6-1.6.0'));
   });
   it('the clear-caches message empties and rebuilds the shell cache', async () => { const before = h.fetched.length; await h.dispatch('message', { data: { type: 'clear-caches' } }); assert.ok(h.fetched.length > before); assert.ok([...h.stores.values()][0].has('/id/index.html')); });
   it('unknown messages are ignored', async () => { const n = h.stores.size; await h.dispatch('message', { data: { type: 'x' } }); assert.equal(h.stores.size, n); });

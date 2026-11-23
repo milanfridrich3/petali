@@ -67,8 +67,15 @@ describe('Netlify routing (simulated with Netlify\'s documented rule semantics)'
     assert.throws(() => request('/id/', phase5), /ERR_TOO_MANY_REDIRECTS/);
   });
   it('the shipped configuration has NO redirect rule for the app: nothing under /id can redirect (rewrites only)', () => {
-    for (const r of toml.rules.filter((x) => x.from.startsWith('/id') && !x.from.startsWith('/id-dev'))) assert.ok(r.status === 200, `${r.from} must be a rewrite (200), not ${r.status}`);
+    // (the only non-200 rules for /id are the explicit 404 guards of the removed support route: never a redirect, never the app shell)
+    const guard = (x) => /^\/id\/support(\/\*)?$/.test(x.from) && x.status === 404;
+    for (const r of toml.rules.filter((x) => x.from.startsWith('/id') && !x.from.startsWith('/id-dev') && !guard(x))) assert.ok(r.status === 200, `${r.from} must be a rewrite (200), not ${r.status}`);
     assert.ok(!existsSync(join(ROOT, '_redirects')), 'no _redirects file may add rules behind the back of netlify.toml');
+  });
+  it('/support serves the standalone page in one rewrite, and /id/support (any depth) is 404 instead of the app shell', () => {
+    const s = request('/support'); assert.equal(s.status, 200); assert.equal(s.to, '/support.html'); assert.equal(s.chain.length, 1); assert.equal(request('/support/').to, '/support.html');
+    for (const u of ['/id/support', '/id/support/', '/id/support/x']) { const r = request(u); assert.equal(r.status, 404, u); assert.ok(r.chain.length <= 2 && !r.chain.includes('/support') && !r.chain.includes('/id/index.html'), `${u}: ${r.chain.join(' -> ')}`); }
+    assert.equal(request('/id/settings').to, '/id/index.html');
   });
   it('/, /id, /id/ and the nested routes each answer in at most one hop and never loop', () => {
     const urls = ['/', '/id', '/id/', '/id/login', '/id/register', '/id/computers', '/id/computers/3f2b8c1e-5d4a-4e7b-9a10-1c2d3e4f5a6b', '/id/plant', '/id/usage', '/id/health', '/id/reports', '/id/settings', '/id/more', '/id/computers/', '/id/plant/'];

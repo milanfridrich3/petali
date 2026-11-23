@@ -13,7 +13,7 @@ describe('HTTP behaviour, error handling and headers', () => {
     const h = await env.call('GET', '/v1/health');
     assert.equal(h.json.status, 'ok'); assert.equal(h.json.apiVersion, '1'); assert.equal(h.headers.get('x-petali-api-version'), '1');
     const r = await env.call('GET', '/v1/ready');
-    assert.equal(r.json.status, 'ready'); assert.equal(r.json.schemaVersion, 4);
+    assert.equal(r.json.status, 'ready'); assert.equal(r.json.schemaVersion, 6);
   });
   it('API responses are versioned under /v1 and are never cached', async () => {
     assert.equal((await env.call('GET', '/account')).status, 404, 'unversioned paths do not exist');

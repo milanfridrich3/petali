@@ -401,6 +401,10 @@
   .download .btn{background:#8fdcae;border-color:#8fdcae;color:#123324;}
   .download .btn:hover{box-shadow:0 10px 24px rgba(143,220,174,0.3);}
   .download .req{font-family:var(--mono);font-size:0.78rem;opacity:0.55;margin-top:18px;}
+  .download .btn-lite{background:transparent;border-color:rgba(143,220,174,0.55);color:#8fdcae;margin-left:10px;}
+  .download .btn-lite:hover{background:rgba(143,220,174,0.12);box-shadow:none;}
+  .download .lite-note{margin-top:8px;}
+  @media (max-width:600px){.download .btn-lite{margin:10px 0 0 0;}}
 
   .only-mobile{display:none;}
   @media (max-width:760px){
@@ -436,6 +440,7 @@
       <a href="#metrics">Metrics</a>
       <a href="#insights">Insights</a>
       <a href="feedback.html">Feedback</a>
+      <a href="/support">Support</a>
       <a href="/id/" class="nav-id" id="navPetaliId" aria-label="Petali ID: open your account"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.25" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.6" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M6.4 18.2c1.2-2.5 3.2-3.7 5.6-3.7s4.4 1.2 5.6 3.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Petali ID</span></a>
       <a href="#download" class="btn">Download</a>
     </nav>
@@ -753,8 +758,10 @@
       <h2>Give your computer a plant to take care of</h2>
       <p style="max-width:52ch;margin:0 auto 1.2em;">Setup takes less than a minute. Petali runs quietly in the background and speaks up only when it matters.</p>
       <p style="color:#8fdcae;font-weight:700;margin-bottom:1.8em;">And that's just the start — there's a lot more waiting inside!</p>
-      <a class="btn only-desktop" href="https://github.com/milanfridrich3/petali/releases/latest/download/Petali_Setup.exe"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg> Download Petali_Setup.exe</a>
+      <a class="btn only-desktop" href="https://github.com/milanfridrich3/petali/releases/latest/download/Petali_Setup.exe"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg> Download Petali</a>
+      <a class="btn btn-lite only-desktop" href="https://github.com/milanfridrich3/petali/releases/latest/download/Petali_Setup_Lite.exe">Download Petali Lite</a>
       <div class="req only-desktop">Windows 10/11 · ~100 MB installer · no account required</div>
+      <div class="req only-desktop lite-note">Petali Lite: Smaller installer · no administrator rights · limited sensor monitoring</div>
 
       <div class="only-mobile">
         <div class="pill-btn" style="display:inline-flex;margin:0 auto;background:rgba(255,255,255,0.08);color:#f3f1e6;border-color:rgba(255,255,255,0.16);">Open this page on your computer to download</div>
@@ -767,6 +774,7 @@
 <footer>
   <div class="wrap foot-row">
     <span>Petali — a living companion for your computer</span>
+    <a href="/support" style="text-decoration: none;">Support Petali (optional, one-time)</a>
     <span>© 2026 <a href="https://milanfridrich.is-a.dev" style="text-decoration: none;">Milan Fridrich</a></span>
   </div>
 </footer>

@@ -7,11 +7,15 @@ import { badRequest } from '../../lib/errors';
 import type { AuthService } from '../auth/service';
 import type { VerificationService } from '../auth/verification';
 import type { SyncService } from './service';
+import { isAllowedText } from '../../lib/moderation';
 
 const UUID = z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, 'Invalid id.');
 const text = (max: number) => z.string().trim().min(1).max(max).refine((s) => !/[\u0000-\u001f\u007f]/.test(s), 'Invalid characters.');
 const hardware = z.record(z.string().max(40), z.union([z.string().max(120), z.number(), z.boolean(), z.null()])).refine((o) => Object.keys(o).length <= 20, 'Too many fields.');
 
+// A computer registers itself with its Windows host name, which nobody typed in Petali: rejecting it would stop that computer from syncing at all, so a name that is not allowed is
+// replaced by a neutral one (the person can rename the computer, and a rename IS moderated). Nothing is logged.
+const deviceNameSafe = <T extends { name?: string }>(b: T): T => (typeof b.name === 'string' && !isAllowedText(b.name) ? { ...b, name: 'My computer' } : b);
 const deviceBody = { name: text(80), platform: text(30).optional(), appVersion: text(30).optional(), hardware: hardware.optional() };
 const registerSchema = z.strictObject({ clientDeviceId: UUID, ...deviceBody, reactivate: z.boolean().optional() });
 const claimSchema = z.strictObject({ deviceId: UUID, clientDeviceId: UUID, ...deviceBody });
@@ -30,8 +34,8 @@ export function syncRoutes(auth: AuthService, sync: SyncService, config: Config,
   const uid = (req: { auth?: { userId: string } }) => (req.auth as { userId: string }).userId;
   const sid = (req: { auth?: { sessionId: string } }) => (req.auth as { sessionId: string }).sessionId;
 
-  r.post('/devices/register', async (req, res, next) => { try { const b = parseBody(registerSchema, req); res.json(await sync.registerDevice(uid(req), sid(req), b)); } catch (e) { next(e); } });
-  r.post('/devices/claim', async (req, res, next) => { try { const b = parseBody(claimSchema, req); res.json(await sync.claimDevice(uid(req), sid(req), b)); } catch (e) { next(e); } });
+  r.post('/devices/register', async (req, res, next) => { try { const b = deviceNameSafe(parseBody(registerSchema, req)); res.json(await sync.registerDevice(uid(req), sid(req), b)); } catch (e) { next(e); } });
+  r.post('/devices/claim', async (req, res, next) => { try { const b = deviceNameSafe(parseBody(claimSchema, req)); res.json(await sync.claimDevice(uid(req), sid(req), b)); } catch (e) { next(e); } });
   r.get('/devices', async (req, res, next) => {
     try {
       const q = z.object({ clientDeviceId: UUID.optional(), includeRemoved: z.enum(['true', 'false']).default('false') }).safeParse(req.query);

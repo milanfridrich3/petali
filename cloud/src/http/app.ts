@@ -16,13 +16,20 @@ import { createMailer, type Mailer } from '../lib/mailer';
 import { deviceRoutes } from '../modules/devices/routes';
 import { createDeviceService } from '../modules/devices/service';
 import { syncRoutes } from '../modules/sync/routes';
+import { createDashboardService } from '../modules/family/dashboard';
+import { createWellbeingService } from '../modules/family/wellbeing';
+import { createFamilyDeviceService } from '../modules/family/devices';
+import { createInvitationService } from '../modules/family/invitations';
+import { familyRoutes } from '../modules/family/routes';
+import { createFamilyService } from '../modules/family/service';
 import { webRoutes } from '../modules/web/routes';
 import { createWebService } from '../modules/web/service';
 import { createSyncService } from '../modules/sync/service';
 import { apiVersion, errorHandler, limiter, noStore, notFoundHandler, requestId, requestLogger } from './middleware';
+import { cors } from './cors';
 
 export const API_VERSION = '1';
-export const SERVICE_VERSION = '1.5.0';   // the Petali 1.5.0 backend (development version, not a public release)
+export const SERVICE_VERSION = '1.6.0';   // the Petali 1.6.0 backend
 
 export type AppDeps = { fetchImpl?: typeof fetch; config: Config; pool: Pool; log: Logger; hasher?: PasswordHasher; mailer?: Mailer; now?: () => number; generateId?: () => string };
 
@@ -40,6 +47,11 @@ export async function createApp(deps: AppDeps): Promise<Express> {
   const sync = createSyncService({ pool, config, ...(deps.now ? { now: deps.now } : {}) });
   const devices = createDeviceService({ pool, auth, ...(deps.now ? { now: deps.now } : {}) });
   const web = createWebService({ pool, ...(deps.now ? { now: deps.now } : {}) });
+  const family = createFamilyService({ pool, config, ...(deps.now ? { now: deps.now } : {}) });                                   // Petali Family (Stage 1)
+  const familyInvitations = createInvitationService({ pool, config, family, mailer, log, ...(deps.now ? { now: deps.now } : {}) });
+  const familyDevices = createFamilyDeviceService({ pool, config, family, ...(deps.now ? { now: deps.now } : {}) });
+  const familyWellbeing = createWellbeingService({ pool, ...(deps.now ? { now: deps.now } : {}) });                                         // Petali Family (Stage 3): Digital Wellbeing
+  const familyDashboard = createDashboardService({ pool, devices: familyDevices, ...(deps.now ? { now: deps.now } : {}) });          // Petali Family (Stage 2): read-only dashboard
 
   const app = express();
   app.disable('x-powered-by');
@@ -47,17 +59,21 @@ export async function createApp(deps: AppDeps): Promise<Express> {
 
   app.use(requestId);
   app.use(helmet());
+  app.use(cors(config.corsOrigins));
   app.use(requestLogger(log));
 
-  // Liveness: the process is up. Not versioned, no database.
-  app.get('/healthz', (_req, res) => { res.json({ status: 'ok' }); });
+  // Liveness: the process is up. Not versioned, no database, nothing about the environment. /health is the public path (Render's health check); /healthz is kept for older monitors.
+  const healthLimit = limiter(config.rateLimit.general, 60_000);
+  app.get('/health', healthLimit, noStore, (_req, res) => { res.json({ status: 'ok', service: 'petali-cloud', serviceVersion: SERVICE_VERSION }); });
+  app.get('/healthz', healthLimit, (_req, res) => { res.json({ status: 'ok' }); });
 
   const v1 = express.Router();
   v1.use(noStore, apiVersion(API_VERSION), limiter(config.rateLimit.general, 60_000));
   // Sync has its own, larger body limit (documents), so it is mounted before the small default parser of everything else.
   v1.use('/sync', syncRoutes(auth, sync, config, verification));
   v1.use(express.json({ limit: '16kb', strict: true, type: 'application/json' }));
-  v1.use('/devices', deviceRoutes(auth, devices, config, verification));   // device management (Phase 3): list, detail, rename, remove, per-device summary
+  v1.use('/devices', deviceRoutes(auth, devices, config, verification));
+  v1.use('/family', familyRoutes(auth, family, familyInvitations, familyDevices, config, verification, familyDashboard, familyWellbeing));   // Petali Family (Stage 1): families, members, invitations, family devices   // device management (Phase 3): list, detail, rename, remove, per-device summary
 
   v1.get('/health', (_req, res) => { res.json({ status: 'ok', service: 'petali-cloud', apiVersion: API_VERSION, serviceVersion: SERVICE_VERSION }); });
   // Readiness: the database answers and the schema is migrated.

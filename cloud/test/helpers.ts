@@ -6,6 +6,7 @@ import { Pool } from 'pg';
 import { loadConfig, type Config } from '../src/config/env';
 import { migrateUp } from '../src/db/migrate';
 import { createApp } from '../src/http/app';
+import type { Mailer } from '../src/lib/mailer';
 import { createLogger } from '../src/lib/logger';
 import { createPasswordHasher } from '../src/modules/auth/passwords';
 
@@ -23,7 +24,7 @@ export type TestEnv = {
   close(): Promise<void>;
 };
 
-export async function createTestEnv(overrides: Record<string, string> = {}, appOverrides: { generateId?: () => string } = {}): Promise<TestEnv> {
+export async function createTestEnv(overrides: Record<string, string> = {}, appOverrides: { generateId?: () => string; mailer?: Mailer } = {}): Promise<TestEnv> {
   const schema = `t_${randomBytes(6).toString('hex')}`;
   const admin = new Pool({ connectionString: TEST_DATABASE_URL, max: 1 });
   await admin.query(`CREATE SCHEMA ${schema}`);

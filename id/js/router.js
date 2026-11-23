@@ -16,7 +16,7 @@ const ROUTES = [
 ];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-// pathname -> { name, params, path, public } ; unknown paths under /id give { name: 'notfound' }.
+// pathname -> { name, params, path, public, always?, nav? } ; unknown paths under /id give { name: 'notfound' }.
 export function matchRoute(pathname) {
   const p = String(pathname || '');
   if (p !== BASE && !p.startsWith(`${BASE}/`)) return { name: 'outside', params: {}, path: p, public: true };
@@ -29,7 +29,7 @@ export function matchRoute(pathname) {
     for (let i = 0; i < pat.length; i += 1) {
       if (pat[i].startsWith(':')) { if (pat[i] === ':deviceId' && !UUID.test(parts[i])) { ok = false; break; } params[pat[i].slice(1)] = parts[i]; } else if (pat[i] !== parts[i]) { ok = false; break; }
     }
-    if (ok) return { name: r.name, params, path: rest === '' ? BASE : `${BASE}/${rest}`, public: r.public, ...(r.always ? { always: true } : {}) };
+    if (ok) return { name: r.name, params, path: rest === '' ? BASE : `${BASE}/${rest}`, public: r.public, ...(r.always ? { always: true } : {}), ...(r.nav ? { nav: true } : {}) };
   }
   return { name: 'notfound', params: {}, path: p, public: false };
 }

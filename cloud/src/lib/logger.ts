@@ -7,6 +7,8 @@ const REDACT = [
   'password', 'newPassword', 'currentPassword', 'refreshToken', 'accessToken', 'token', 'authorization', 'cookie',
   '*.password', '*.newPassword', '*.currentPassword', '*.refreshToken', '*.accessToken', '*.token', '*.authorization', '*.cookie',
   'req.headers.authorization', 'req.headers.cookie', 'headers.authorization', 'headers.cookie', 'body', 'req.body',
+  // personal user content and credentials of third parties (never needed in a log line)
+  'displayName', '*.displayName', 'email', '*.email', 'apiKey', '*.apiKey', 'secret', '*.secret', 'clientSecret', '*.clientSecret',
 ];
 
 export function createLogger(level: string, destination?: DestinationStream): Logger {

@@ -232,3 +232,7 @@ a.back{display:inline-flex;align-items:center;min-height:44px;padding-right:12px
 @media (prefers-reduced-motion:reduce){.chart .chart-band,.chart .bar,.chart .bar-none{transition:none}}
 
 .btn-small{min-height:32px;padding:0 10px;font-size:12px;border-radius:9px}
+
+
+/* compact button (Copy Petali ID) */
+.btn-small{min-height:32px;padding:4px 10px;font-size:12px}

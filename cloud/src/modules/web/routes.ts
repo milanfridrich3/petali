@@ -60,7 +60,7 @@ export function webRoutes(auth: AuthService, web: WebService, config: Config, ve
   const HOUR = 3_600_000; const QUARTER = 900_000;
   s.use(guard);
   s.post('/register', limiter(config.rateLimit.register, HOUR), async (req, res, next) => {
-    try { const b = parseBody(registerSchema, req); const a = await auth.register({ ...b, deviceLabel: WEB_LABEL }, clientInfo(req)); setSession(res, a.tokens.refreshToken, a.tokens.refreshTokenExpiresAt); res.status(201).json({ ...publicResult(a), emailVerification: await registrationVerification(verification, a.user.petaliId) }); } catch (e) { next(e); }
+    try { const b = parseBody(registerSchema, req, { moderate: ['displayName'] }); const a = await auth.register({ ...b, deviceLabel: WEB_LABEL }, clientInfo(req)); setSession(res, a.tokens.refreshToken, a.tokens.refreshTokenExpiresAt); res.status(201).json({ ...publicResult(a), emailVerification: await registrationVerification(verification, a.user.petaliId) }); } catch (e) { next(e); }
   });
   s.post('/login', limiter(config.rateLimit.login, QUARTER), async (req, res, next) => {
     try { const b = parseBody(loginSchema, req); const a = await auth.login({ ...b, deviceLabel: WEB_LABEL }, clientInfo(req)); setSession(res, a.tokens.refreshToken, a.tokens.refreshTokenExpiresAt); res.json(publicResult(a)); } catch (e) { next(e); }

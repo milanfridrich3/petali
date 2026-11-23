@@ -192,7 +192,7 @@ describe('migration 0003 (device management) is additive', () => {
       const before = await snap();
       const r = await migrateUp(pool);
       assert.deepEqual(r.applied, loadMigrations().map((m) => m.version).filter((v) => v > 2));
-      assert.equal(await currentSchemaVersion(pool), 4);
+      assert.equal(await currentSchemaVersion(pool), 6);
       assert.deepEqual((await pool.query('SELECT password_usable FROM users')).rows.map((x) => x.password_usable), [true, true], 'existing accounts keep password sign-in (migration 0004 default)');
       assert.equal(await snap(), before, 'every pre-existing row and column is byte-for-byte the same');
       const nd = (await pool.query('SELECT name, name_customized, name_updated_at, history_purged_at, revoked_at FROM devices ORDER BY created_at, name')).rows;

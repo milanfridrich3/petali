@@ -132,19 +132,20 @@ describe('computers: current computer marker and management', () => {
   });
 });
 
-describe('version metadata is 1.5.0 everywhere an application version is defined', () => {
+describe('version metadata is 1.6.0 everywhere an application version is defined', () => {
   const root = new URL('../../../', import.meta.url); const read = (p) => readFileSync(new URL(p, root), 'utf8'); const has = (p) => existsSync(new URL(p, root));
-  it('Petali ID: version.js, service worker cache name, and the web build', async () => { assert.equal((await import('../../id/js/version.js')).APP_VERSION, '1.5.0'); assert.match(read('landing-page-and-petali-id/id/sw.js'), /const VERSION = 'v4-1\.5\.0'/); });
+  const APP = has('app/package.json') ? 'app' : 'app-and-cloud'; const CLOUD = has('landing-page-and-petali-id/cloud/package.json') ? 'landing-page-and-petali-id/cloud' : `${APP}/cloud`;
+  it('Petali ID: version.js, service worker cache name, and the web build', async () => { assert.equal((await import('../../id/js/version.js')).APP_VERSION, '1.6.0'); assert.match(read('landing-page-and-petali-id/id/sw.js'), /const VERSION = 'v6-1\.6\.0'/); });
   it('desktop, helper, backend (checked when those sources are next to the web project)', () => {
-    if (!has('app-and-cloud/package.json')) return;
-    assert.equal(JSON.parse(read('app-and-cloud/package.json')).version, '1.5.0');
-    const lock = JSON.parse(read('app-and-cloud/package-lock.json')); assert.equal(lock.version, '1.5.0'); assert.equal(lock.packages[''].version, '1.5.0');
-    assert.match(read('app-and-cloud/sensor-helper/PetaliSensorHelper.csproj'), /<Version>1\.5\.0<\/Version>/);
-    assert.equal(JSON.parse(read('app-and-cloud/cloud/package.json')).version, '1.5.0'); assert.match(read('app-and-cloud/cloud/src/http/app.ts'), /SERVICE_VERSION = '1\.5\.0'/);
-    const b = JSON.parse(read('app-and-cloud/package.json')).build; assert.equal(b.appId, 'com.milanfridrich.petali'); assert.equal(b.productName, 'Petali'); assert.match(b.nsis.artifactName, /\$\{version\}/);   // unrelated metadata untouched
+    if (!has(`${APP}/package.json`)) return;
+    assert.equal(JSON.parse(read(`${APP}/package.json`)).version, '1.6.0');
+    const lock = JSON.parse(read(`${APP}/package-lock.json`)); assert.equal(lock.version, '1.6.0'); assert.equal(lock.packages[''].version, '1.6.0');
+    assert.match(read(`${APP}/sensor-helper/PetaliSensorHelper.csproj`), /<Version>1\.6\.0<\/Version>/);
+    assert.equal(JSON.parse(read(`${CLOUD}/package.json`)).version, '1.6.0'); assert.match(read(`${CLOUD}/src/http/app.ts`), /SERVICE_VERSION = '1\.6\.0'/);
+    const b = JSON.parse(read(`${APP}/package.json`)).build; assert.equal(b.appId, 'com.milanfridrich.petali'); assert.equal(b.productName, 'Petali'); assert.match(b.nsis.artifactName, /\$\{version\}/);   // unrelated metadata untouched
   });
   it('no dependency, Electron or Node version was changed by the version bump', () => {
-    if (!has('app-and-cloud/package.json')) return; const p = JSON.parse(read('app-and-cloud/package.json'));
+    if (!has(`${APP}/package.json`)) return; const p = JSON.parse(read(`${APP}/package.json`));
     assert.match(p.devDependencies.electron, /^[\^~]?3[0-9]\./); assert.ok(p.dependencies.systeminformation);
   });
 });

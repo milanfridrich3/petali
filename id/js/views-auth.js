@@ -7,7 +7,7 @@ import { PASSWORD_MIN, PASSWORD_HINT, passwordProblem } from './auth-rules.js';
 const MESSAGES = {
   invalid_credentials: 'Email or password is incorrect.', email_taken: 'An account with this email already exists. Sign in instead.', weak_password: null,
   google_not_configured: 'Google sign-in is not set up on this server yet. Use your email and password instead.',
-  too_many_attempts: 'Too many attempts. Please wait a moment and try again.', rate_limited: 'Too many requests. Please wait a moment and try again.', validation_failed: 'Please check the highlighted fields.',
+  too_many_attempts: 'Too many attempts. Please wait a moment and try again.', rate_limited: 'Too many requests. Please wait a moment and try again.', validation_failed: 'Please check the highlighted fields.', inappropriate_text: 'This text contains words that are not allowed. Please choose another.',
 };
 export function describeAuthError(e) {
   if (!(e instanceof ApiError)) return 'Something went wrong. Please try again.';

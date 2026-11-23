@@ -48,11 +48,19 @@ const schema = z.object({
   RATE_LIMIT_SYNC_MAX: int(1, 1000000, 300),       // sync requests, per IP per 15 minutes
   RATE_LIMIT_DEVICES_MAX: int(1, 1000000, 120),    // device management requests (list, detail, rename, summary), per IP per 15 minutes
   RATE_LIMIT_DEVICE_REMOVE_MAX: int(1, 100000, 20), // device removal, per IP per 15 minutes
+  RATE_LIMIT_FAMILY_MAX: int(1, 1000000, 300),       // Petali Family requests (read and manage), per IP per 15 minutes
+  RATE_LIMIT_FAMILY_INVITE_MAX: int(1, 100000, 30),  // creating / resending / answering invitations by code, per IP per 15 minutes
+  FAMILY_INVITE_TTL_DAYS: int(1, 60, 7),             // how long an invitation can be accepted
+  FAMILY_TRANSFER_TTL_DAYS: int(1, 30, 3),           // how long a device hand-over can be accepted
+  FAMILY_MAX_MEMBERS: int(2, 50, 12),                // members of one family
+  FAMILY_MAX_PENDING_INVITATIONS: int(1, 100, 20),   // open invitations of one family
   SYNC_USER_QUOTA_MB: int(1, 10000, 100),          // cloud storage one account may use for synchronised documents
   SYNC_MAX_OPS_PER_PUSH: int(1, 500, 50),            // failures in a row before the account/email is paused
 
   // Petali ID web app / PWA (1.5.0 Phase 5). The browser talks to this API through the same-origin proxy of the website (see PETALI-WEB.md),
   // so the refresh token can live in a first-party HttpOnly cookie. All values are optional; the defaults match the production site.
+  CORS_ALLOWED_ORIGINS: z.string().default('https://petali.netlify.app'),   // browser origins that may call the API cross-origin (comma-separated); production: https only
+  CORS_PREVIEW_ORIGINS: z.string().default(''),                            // extra origins, listed explicitly (e.g. one Netlify deploy preview); never a wildcard
   WEB_ALLOWED_ORIGINS: z.string().default('https://petali.netlify.app'),   // comma-separated origins allowed to use the cookie session endpoints
   WEB_COOKIE_PATH: z.string().regex(/^\/[A-Za-z0-9/_.-]*$/, 'must be an absolute URL path').default('/id/api/v1/web/session'),   // the path the BROWSER sees (behind the proxy)
   WEB_COOKIE_SECURE: bool.optional(),                                       // default: true in production, false otherwise
@@ -86,6 +94,7 @@ const schema = z.object({
   GOOGLE_TOKEN_URL: z.string().optional(),
   GOOGLE_JWKS_URL: z.string().optional(),
   GOOGLE_ISSUERS: z.string().optional(),
+
 });
 
 export type Config = {
@@ -94,6 +103,7 @@ export type Config = {
   port: number;
   logLevel: string;
   trustProxy: number;
+  corsOrigins: string[];
   databaseUrl: string;
   databaseSsl: boolean;
   dbPoolMax: number;
@@ -104,8 +114,9 @@ export type Config = {
   refreshIdleDays: number;
   sessionMaxDays: number;
   argon2: { memoryCost: number; timeCost: number; parallelism: number };
-  rateLimit: { register: number; login: number; refresh: number; sensitive: number; general: number; sync: number; devices: number; deviceRemove: number };
+  rateLimit: { register: number; login: number; refresh: number; sensitive: number; general: number; sync: number; devices: number; deviceRemove: number; family: number; familyInvite: number };
   sync: { userQuotaBytes: number; maxOpsPerPush: number };
+  family: { inviteTtlMs: number; transferTtlMs: number; maxMembers: number; maxPendingInvitations: number };
   loginLockThreshold: number;
   web: { allowedOrigins: string[]; cookiePath: string; cookieSecure: boolean; cookieName: string; rateLimit: number };
   google: { web: { clientId: string; clientSecret: string; redirectUri: string } | null; desktop: { clientId: string; clientSecret: string } | null; cookiePath: string; authUrl: string; tokenUrl: string; jwksUrl: string; issuers: string[] };
@@ -143,6 +154,14 @@ export function loadConfig(source: NodeJS.ProcessEnv = process.env): Config {
     let u: URL | null = null;
     try { u = new URL(o); } catch { /* reported below */ }
     if (!u || !/^https?:$/.test(u.protocol) || u.origin !== o) throw new ConfigError(`Invalid configuration:\n  - WEB_ALLOWED_ORIGINS: "${o}" is not an origin (expected e.g. https://petali.netlify.app, no path and no trailing slash)`);
+  }
+  // CORS: exact origins only. No wildcard, no regular expression; production allows https origins only (no localhost).
+  const corsOrigins = [...e.CORS_ALLOWED_ORIGINS.split(','), ...e.CORS_PREVIEW_ORIGINS.split(',')].map((o) => o.trim()).filter(Boolean);
+  for (const o of corsOrigins) {
+    let u: URL | null = null;
+    try { u = new URL(o); } catch { /* reported below */ }
+    if (o.includes('*') || !u || !/^https?:$/.test(u.protocol) || u.origin !== o) throw new ConfigError(`Invalid configuration:\n  - CORS_ALLOWED_ORIGINS / CORS_PREVIEW_ORIGINS: "${o}" is not an exact origin (e.g. https://petali.netlify.app, no path, no trailing slash, no wildcard)`);
+    if (e.NODE_ENV === 'production' && (u.protocol !== 'https:' || /^(localhost|127\.|\[::1\])/.test(u.hostname))) throw new ConfigError(`Invalid configuration:\n  - CORS_ALLOWED_ORIGINS / CORS_PREVIEW_ORIGINS: production allows public https origins only ("${o}")`);
   }
   const cookieSecure = e.WEB_COOKIE_SECURE ?? e.NODE_ENV === 'production';
   if (e.NODE_ENV === 'production' && !cookieSecure) throw new ConfigError('Invalid configuration:\n  - WEB_COOKIE_SECURE: production requires Secure cookies');
@@ -188,12 +207,14 @@ export function loadConfig(source: NodeJS.ProcessEnv = process.env): Config {
     issuers: e.GOOGLE_ISSUERS ? e.GOOGLE_ISSUERS.split(',').map((x) => x.trim()).filter(Boolean) : GOOGLE_DEFAULTS.issuers,
   };
 
+
   return {
     env: e.NODE_ENV,
     host: e.HOST ?? (e.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1'),
     port: e.PORT,
     logLevel: e.LOG_LEVEL,
     trustProxy: e.TRUST_PROXY,
+    corsOrigins,
     databaseUrl: e.DATABASE_URL,
     databaseSsl: e.DATABASE_SSL,
     dbPoolMax: e.DB_POOL_MAX,
@@ -217,7 +238,10 @@ export function loadConfig(source: NodeJS.ProcessEnv = process.env): Config {
       sync: e.RATE_LIMIT_SYNC_MAX,
       devices: e.RATE_LIMIT_DEVICES_MAX,
       deviceRemove: e.RATE_LIMIT_DEVICE_REMOVE_MAX,
+      family: e.RATE_LIMIT_FAMILY_MAX,
+      familyInvite: e.RATE_LIMIT_FAMILY_INVITE_MAX,
     },
+    family: { inviteTtlMs: e.FAMILY_INVITE_TTL_DAYS * 86_400_000, transferTtlMs: e.FAMILY_TRANSFER_TTL_DAYS * 86_400_000, maxMembers: e.FAMILY_MAX_MEMBERS, maxPendingInvitations: e.FAMILY_MAX_PENDING_INVITATIONS },
     sync: {
       userQuotaBytes: e.SYNC_USER_QUOTA_MB * 1024 * 1024,
       maxOpsPerPush: e.SYNC_MAX_OPS_PER_PUSH,

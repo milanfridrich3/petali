@@ -26,7 +26,9 @@ export function createApi({ fetchImpl = (...a) => fetch(...a), base = '/id/api',
     finally { clearTimeout(timer); }
     if (res.status === 204) return null;
     let json = null; try { json = await res.json(); } catch { /* not JSON (a proxy error page) */ }
-    if (res.ok) return json;
+    // A successful answer that is not JSON is not an answer from the Petali API (a proxy error page, or the site's own app shell when the proxy is misconfigured):
+    // an error the callers can handle (transient, so nobody is signed out), never a null they would crash on.
+    if (res.ok) { if (json === null) throw new ApiError('The server sent an unexpected response.', { status: 502, code: 'invalid_response' }); return json; }
     const err = json && json.error ? json.error : {};
     throw new ApiError(err.message || `Request failed (${res.status}).`, { status: res.status, code: err.code || (res.status >= 500 ? 'server_error' : 'request_failed'), retryAfter: Number(res.headers && res.headers.get && res.headers.get('retry-after')) || null, requestId: err.requestId || null });
   }

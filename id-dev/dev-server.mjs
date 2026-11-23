@@ -12,8 +12,10 @@ http.createServer(async (req, res) => {
     res.writeHead(r.status, h); return res.end(Buffer.from(await r.arrayBuffer()));
   }
   if (p.startsWith('/id-dev/')) { res.writeHead(404); return res.end('404'); }
+  // Same as netlify.toml: /id/support does not exist (404, never the app shell); /support is the standalone public page.
+  if (p === '/id/support' || p.startsWith('/id/support/')) { res.writeHead(404); return res.end('404'); }
   // Same routing as netlify.toml (rules ignore a trailing slash): /id and /id/ are forced rewrites to the app shell; /id/* only when no file exists.
-  let f = p === '/' ? 'index.html' : p.slice(1); let abs = join(ROOT, f);
+  let f = p === '/' ? 'index.html' : p.slice(1); if (p.replace(/\/+$/, '') === '/support') f = 'support.html'; let abs = join(ROOT, f);
   if (p.replace(/\/+$/, '') === '/id') abs = join(ROOT, 'id/index.html');
   else if (existsSync(abs) && statSync(abs).isDirectory()) abs = join(abs, 'index.html');
   if (!existsSync(abs) && p.startsWith('/id/')) abs = join(ROOT, 'id/index.html');

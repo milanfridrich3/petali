@@ -46,7 +46,7 @@ export function deviceRoutes(auth: AuthService, devices: DeviceService, config: 
     } catch (e) { next(e); }
   });
   r.patch('/:id', id, async (req, res, next) => {
-    try { const b = parseBody(renameSchema, req); res.json(await devices.rename(uid(req), req.params['id'] as string, b)); } catch (e) { next(e); }
+    try { const b = parseBody(renameSchema, req, { moderate: ['name'] }); res.json(await devices.rename(uid(req), req.params['id'] as string, b)); } catch (e) { next(e); }
   });
   // POST (not DELETE): the request carries an explicit confirmation and choices, and a body on DELETE is not reliably supported by proxies.
   r.post('/:id/remove', limiter(config.rateLimit.deviceRemove, 900_000), id, async (req, res, next) => {

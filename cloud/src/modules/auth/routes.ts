@@ -41,7 +41,7 @@ export function authRoutes(auth: AuthService, config: Config, verification: Veri
 
   r.post('/register', limiter(config.rateLimit.register, HOUR), async (req, res, next) => {
     try {
-      const body = parseBody(registerSchema, req);
+      const body = parseBody(registerSchema, req, { moderate: ['displayName'] });
       const result = await auth.register(body, clientInfo(req));
       res.status(201).json({ ...result, emailVerification: await registrationVerification(verification, result.user.petaliId) });
     } catch (err) { next(err); }

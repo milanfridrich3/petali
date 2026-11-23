@@ -148,9 +148,12 @@ describe('web: cookie session', () => {
     assert.equal((await env.call('POST', '/v1/web/session/register', { headers: WEB, body: { email, password: STRONG } })).json.error.code, 'email_taken');
     assert.equal((await env.call('POST', '/v1/web/session/login', { headers: WEB, body: { email, password: STRONG, userId: 'x' } })).status, 400);
   });
-  it('the API sends no CORS headers (the site uses a same-origin proxy)', async () => {
+  it('CORS never allows credentials (the site uses a same-origin proxy), and an unlisted origin gets no CORS headers at all', async () => {
     const r = await env.call('POST', '/v1/web/session/login', { headers: WEB, body: { email, password: STRONG } });
-    assert.equal(r.headers.get('access-control-allow-origin'), null);
+    assert.equal(r.headers.get('access-control-allow-credentials'), null);
+    assert.ok([null, 'https://petali.netlify.app'].includes(r.headers.get('access-control-allow-origin')));
+    const evil = await env.call('POST', '/v1/web/session/login', { headers: { ...WEB, Origin: 'https://evil.example' }, body: { email, password: STRONG } });
+    assert.equal(evil.headers.get('access-control-allow-origin'), null);
   });
 });
 

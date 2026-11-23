@@ -1,6 +1,7 @@
 // What may be synchronised. Every document kind has a scope (account-wide or one device's), a key format, a size cap, a
 // merge rule and a validator. The server stores documents as JSON and does not interpret them beyond these checks;
 // the desktop app sanitises everything again when it applies a document.
+import { isAllowedText } from '../../lib/moderation';
 export type Scope = 'account' | 'device';
 import type { MergeName } from './merge';
 export type Merge = MergeName;
@@ -33,7 +34,7 @@ function validateSetting(data: unknown, key: string): string | null {
   switch (key) {
     case 'ui.lang': return data === 'cs' || data === 'en' ? null : 'must be "cs" or "en"';
     case 'ui.plant': return typeof data === 'string' && data.length >= 1 && data.length <= 32 ? null : 'must be a short string';
-    case 'ui.name': return typeof data === 'string' && data.length <= 20 ? null : 'must be a string of at most 20 characters';
+    case 'ui.name': return typeof data !== 'string' || data.length > 20 ? 'must be a string of at most 20 characters' : isAllowedText(data) ? null : 'this text is not allowed';   // the plant name is text a person typed: same moderation as every other name (the text is never echoed)
     case 'ui.effects': return typeof data === 'boolean' ? null : 'must be a boolean';
     case 'ui.mode': return data === null || data === 'day' || data === 'night' ? null : 'must be "day", "night" or null';
     case 'ui.autoNight': case 'ui.prefs': case 'dashboard.layout': return isObj(data) ? null : 'must be an object';
@@ -65,6 +66,11 @@ export const KINDS: Record<string, KindDef> = {
   health: {
     scope: 'device', key: MONTH, maxBytes: 524_288, merge: 'health', allowDelete: false,
     validate: (data, key) => (isObj(data) && dateKeyOk(`${key}-01`) && Array.isArray(data['lines']) && data['lines'].length <= 20000 ? null : 'must be {lines: [...]} for a valid month'),
+  },
+  // Digital Wellbeing (Stage 3): how the rules turned out on one day on one computer. Written only by that computer (single writer), whole-document replace.
+  wellbeing: {
+    scope: 'device', key: DAY, maxBytes: 65_536, merge: 'lww', allowDelete: false,
+    validate: dayDoc((o) => (Array.isArray(o['limits']) && o['limits'].length <= 100 && Array.isArray(o['schedules']) && o['schedules'].length <= 100 && isObj(o['breaks']) && num(o['activeMs'], 0, DAY_MS * 1.01) ? null : 'invalid wellbeing day')),
   },
   // plant growth credits of one device: {baseMs, days:{day: ms}}; merged per day by maximum, never replaced
   plant: {
